@@ -1,5 +1,3 @@
-# [Swagger-4-es/os](https://www.swarmee.net/blog/) (Elasticsearch / Opensearch)
-
 ## Elasticsearch 7.10 Compatible Cluster with Swagger-UI
 
 The purpose of this repo is to demonstrate how you can setup a Swagger UI page (i.e. an openapi specification) for Elasticsearch/Opensearch endpoints of interest. Why would you want to do this:
