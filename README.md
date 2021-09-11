@@ -28,14 +28,15 @@ Then open [https://localhost/swagger.html](https://localhost/swagger.html) to se
 
 **Noting**:
 
+- The local cluster is actually a [Opensearch](https://opensearch.org/) cluster - however this is compatible with Elasticsearch 7.10.2.
 - The Opensearch cluster will take a little while to boot up - at least 15 seconds (you should see the messages scrolling through on your terminal as it starts up).
 - The container generates a self signed certificate so you will need to accept the warning message in your browser. It is expected to see a `Warning: Potential Security Risk Ahead` message when you open the Swagger UI link (Click Proceed).
 - No authentication is required for the local cluster
-- The local cluster is actually a Opensearch cluster - however this is compatible with Elasticsearch 7.10.2.
+
 
 Then open [https://localhost/swagger.html](https://localhost/swagger.html) to see the Swagger UI page which identifies a number of key endpoints and explains how to use them.
 
-The Elasticsearch cluster is also avaliable directly at [http://localhost:9200](http://localhost:9200)
+The cluster is also avaliable directly at [http://localhost:9200](http://localhost:9200)
 
 ### Screenshot
 
@@ -47,9 +48,9 @@ Below is what the Swagger UI page looks like;
 
 The way to set this up is very straight forward:
 
-1. Document your schema as a openapi.json file - [Swagger Hub](https://app.swaggerhub.com) can help with this.
+1. Document your schema as a `openapi.json` file - [Swagger Hub](https://app.swaggerhub.com) can help with this.
 2. Copy the `dist` folder from the [Swagger UI](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/installation.md) github page.
-3. Drop in your openapi.json from step one into the same folder as the HTML index file.
+3. Drop in your `openapi.json` from step one into the same folder as the HTML index file.
 4. change the `url` parameter in the `index.html` to "./openapi.json". so it looks like this :
 
 ```javascript
