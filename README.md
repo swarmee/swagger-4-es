@@ -1,12 +1,17 @@
 ## Elasticsearch 7.10 Compatible Cluster with Swagger-UI
 
-The purpose of this repo is to demonstrate how you can setup a Swagger UI page (i.e. an openapi specification) for Elasticsearch/Opensearch endpoints of interest. Why would you want to do this:
+The purpose of this repo is to demonstrate how you can setup a Swagger UI page (i.e. an openapi specification) for Elasticsearch/Opensearch endpoints of interest. 
+
+Why would you want to do this:
 
 - It allows you to build automated tests again the openapi specification using tools like [schemathesis](https://schemathesis.readthedocs.io/en/stable/). So when you want to upgrade elasticsearch you can test the APIs and your configuration are performing the way you expect. The openapi specification can be used to drive your tests by having endpoints that create indexes with data and then query that data.
 
 - Documenting the key endpoints saves a lot of google searching for precise parameters and lets you annotate specific end points (e.g. issues in dev/test check to see if the cluster has gone read-only due to space constraints).
 
 - It's also much more precise and faster to go to a Swagger UI page and hit `try it out` and select a preconfigured payload from a list, than go into dev tools in kibana and write out a payload.
+
+The example Swagger UI page provided in the repo can act as training material for individuals new to elasticsearch. 
+
 
 ### Prerequisite
 
@@ -22,7 +27,7 @@ The following software and configuration is required on your computer:
 docker-compose up
 ```
 
-Then open [https://localhost/swagger.html](https://localhost/swagger.html) to see the Swagger ui.
+Then open [https://localhost/swagger.html](https://localhost/swagger.html) to see the Swagger UI page.
 
 **Noting**:
 
@@ -44,7 +49,7 @@ Below is what the Swagger UI page looks like;
 
 ### Technical Details
 
-The way to set this up is very straight forward:
+The way to set this up fo yourself is very straight forward:
 
 1. Document your schema as a `openapi.json` file - [Swagger Hub](https://app.swaggerhub.com) can help with this.
 2. Copy the `dist` folder from the [Swagger UI](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/installation.md) github page.
