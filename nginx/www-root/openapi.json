@@ -2,72 +2,50 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Elasticsearch Basics",
-        "description": "This Swagger page runs throught the basic Elasticsearch API end points.It is intended to be used as a teaching mechanism for anybody looking to pick upsome elasticsearch knowledge. The Swagger page runs through a couple of the keycluster management end points as well as all the basic `CRUD` operations.\nSample payloads have been provided for each end point to assist in the learning processing.\n##### Every CRUD end point requires that you specify an index name as a path parameter.\n",
+        "description": "This Swagger UI page runs throught the basic Elasticsearch API end points. It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe Swagger UI page runs through the basics of index management then runs through all the basic `CRUD` operations. Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter.\n\nFor instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [Swarmee Blog](https://www.swarmee.net/blog/2021-09-02-Elasticsearch-Foundational-Training/).",
         "version": "1.0"
     },
     "servers": [{
-        "url": "https://localhost:443",
+        "url": "https://localhost"
     }],
     "paths": {
-        "/_cat/indices": {
-            "get": {
-                "tags": [
-                    "🎊 Cluster Basics"
-                ],
-                "summary": "Node Details",
-                "description": "List indices and their state. This is one of the `cat` end points (Compact and aligned text).\n        Which are intended to provide  (CAT) APIsedit\nIntroductionedit\nJSON is great…​ for c\n\n    ",
-                "operationId": "node_details__cat_indices_get",
-                "parameters": [{
-                        "required": false,
-                        "schema": {
-                            "allOf": [{
-                                "$ref": "#/components/schemas/format_types"
-                            }],
-                            "default": "json"
-                        },
-                        "name": "format",
-                        "in": "query"
-                    },
-                    {
-                        "required": false,
-                        "schema": {
-                            "title": "Display headings",
-                            "type": "boolean",
-                            "default": true
-                        },
-                        "name": "v",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                },
-                "security": [{
-                    "HTTPBasic": []
-                }]
-            }
-        },
         "/_cluster/health": {
             "get": {
                 "tags": [
                     "🎊 Cluster Basics"
                 ],
                 "summary": "Retrieve Cluster Health",
-                "description": "Retrieve Cluster Health \n\nIdeally your cluster is green (which means no unreplicated shards)\nYellow means you have some unreplicated shards - if you create an index it may by default have mulitple shards.",
+                "description": "Retrieve Cluster Health \n\nIdeally your cluster is green (which means no unreplicated shards) \n\nYellow means you have some unreplicated shards - if you create an index it may by default have mulitple shards.",
                 "operationId": "retrieve_cluster_health__cluster_health_get",
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": [{
+                                            "cluster_name": "swarmee",
+                                            "status": "yellow",
+                                            "timed_out": false,
+                                            "number_of_nodes": 1,
+                                            "number_of_data_nodes": 1,
+                                            "discovered_master": true,
+                                            "active_primary_shards": 1,
+                                            "active_shards": 1,
+                                            "relocating_shards": 0,
+                                            "initializing_shards": 0,
+                                            "unassigned_shards": 2,
+                                            "delayed_unassigned_shards": 0,
+                                            "number_of_pending_tasks": 0,
+                                            "number_of_in_flight_fetch": 0,
+                                            "task_max_waiting_in_queue_millis": 0,
+                                            "active_shards_percent_as_number": 33.33333333333333
+                                        }]
+                                    }
+                                }
                             }
                         }
                     }
@@ -77,20 +55,81 @@
                 }]
             }
         },
-        "/_cat": {
+        "/_cat/indices": {
             "get": {
                 "tags": [
-                    "🎊 Cluster Basics"
+                    "✨ Index Operations"
                 ],
-                "summary": "Node Details",
-                "description": "List of `cat` end points (Compact and aligned text). \n\nCat end points are intended for humans to read. Noting the majority have a format query parameter\nthat lets you review the data as json. ",
-                "operationId": "node_details__cat_get",
+                "summary": "List Indices",
+                "description": "`cat` stands for Compact and Aligned Text - there are many elasticserch endpoints under `_cat` \n\nThese endpoints are meant for humans to read as the text is neatly aligned in columns. \n\nHowever they have evolved to have a format parameter so you can get `json` back from them also.\n\nThis `cat` endpoint list indices and provides their state \n\nThe **v** parameter toggles the column headings on and off in the column view.  ",
+                "operationId": "list_indices__cat_indices_get",
+                "parameters": [{
+                        "required": false,
+                        "schema": {
+                            "title": "V",
+                            "type": "boolean"
+                        },
+                        "name": "v",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "allOf": [{
+                                "$ref": "#/components/schemas/format_types"
+                            }],
+                            "default": "column"
+                        },
+                        "name": "format",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": [{
+                                                "health": "green",
+                                                "status": "open",
+                                                "index": "country",
+                                                "uuid": "jNi87tzhRgyDCnyqSeaWDQ",
+                                                "pri": "1",
+                                                "rep": "0",
+                                                "docs.count": "0",
+                                                "docs.deleted": "0",
+                                                "store.size": "208b",
+                                                "pri.store.size": "208b"
+                                            },
+                                            {
+                                                "health": "green",
+                                                "status": "open",
+                                                "index": "test",
+                                                "uuid": "Xk6o3Nv6QnqG2POSufHJaA",
+                                                "pri": "1",
+                                                "rep": "0",
+                                                "docs.count": "0",
+                                                "docs.deleted": "0",
+                                                "store.size": "208b",
+                                                "pri.store.size": "208b"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
                             }
                         }
                     }
@@ -103,11 +142,11 @@
         "/{index}/": {
             "get": {
                 "tags": [
-                    "🎉 Read"
+                    "✨ Index Operations"
                 ],
-                "summary": "Retrieve Index",
-                "description": "Retrieve an indexes configuration",
-                "operationId": "retrieve_index__index___get",
+                "summary": "View Index Details",
+                "description": "View the aliases, mappings and settings for an index.\n\n_**Aliases**_ are similar to table views from sql land - i.e. they don't hold data - they just point to one or more indexes. \n\n_**Mappings**_ defines the type of each field and how it is indexes \n\n_**Settings**_ defines the index level configuration.   ",
+                "operationId": "view_index_details__index___get",
                 "parameters": [{
                     "required": true,
                     "schema": {
@@ -119,10 +158,33 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "country": {
+                                                "aliases": {},
+                                                "mappings": {},
+                                                "settings": {
+                                                    "index": {
+                                                        "creation_date": "1631913972854",
+                                                        "number_of_shards": "1",
+                                                        "number_of_replicas": "0",
+                                                        "uuid": "yQ8dF5otQ5SKHyWQYlr9Jw",
+                                                        "version": {
+                                                            "created": "135217827"
+                                                        },
+                                                        "provided_name": "country"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -143,10 +205,10 @@
             },
             "put": {
                 "tags": [
-                    "🚀 Create"
+                    "✨ Index Operations"
                 ],
                 "summary": "Create Index",
-                "description": "Store a document into elasticsearch, the _id for the record will be generated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default storage and indexing parameters. The HTTP response code is 201 for this request. ",
+                "description": "Create an empty index in elasticsearch with a predefined configuration. \n\nOver time you will probably want to look at index templates - however you need to understand the fundamentals of index settings. \n\nBelow there are two example index configurations. ",
                 "operationId": "create_index__index___put",
                 "parameters": [{
                     "required": true,
@@ -178,7 +240,7 @@
                                 },
                                 "complex_index_country": {
                                     "summary": "A more complex index configuration",
-                                    "description": "A more `complex` document with many fields of different types",
+                                    "description": "A more **complex** document with many fields of different types",
                                     "value": {
                                         "settings": {
                                             "index": {
@@ -197,10 +259,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "acknowledged": true,
+                                            "shards_acknowledged": true,
+                                            "index": "country"
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -221,10 +293,10 @@
             },
             "delete": {
                 "tags": [
-                    "🦄 Delete"
+                    "✨ Index Operations"
                 ],
                 "summary": "Delete Index",
-                "description": "Delete an index (and all documents contained within the index)",
+                "description": "Delete an index (and all documents contained within the index)\n\nThese types of endpoints support asterisk (`*`) as a wild. \n\nThis is really helpful when you need to delete indices which have the date in the index name. E.g.; \n\n``` bash\ncurl -X 'DELETE' 'https://localhost/2020-01-*-applogs/' \n```\nBut be careful.",
                 "operationId": "delete_index__index___delete",
                 "parameters": [{
                     "required": true,
@@ -237,10 +309,342 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "acknowledged": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "HTTPBasic": []
+                }]
+            }
+        },
+        "/{index}/_settings": {
+            "put": {
+                "tags": [
+                    "✨ Index Operations"
+                ],
+                "summary": "Update Index Settings",
+                "description": "Update an existing indexes settings. \n\nFor example you might want to build an index with settings optimised for speed, however once its built you might want to optimise for redundancy (e.g. increasing the number of replicates), \n\n**Not** all index settings can be changed once an index is created.  ",
+                "operationId": "update_index_settings__index___settings_put",
+                "parameters": [{
+                    "required": true,
+                    "schema": {
+                        "title": "Index",
+                        "type": "string"
+                    },
+                    "name": "index",
+                    "in": "path"
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Request",
+                                "type": "object"
+                            },
+                            "examples": {
+                                "update_index_setting": {
+                                    "summary": "A update to an index setting",
+                                    "description": "A **simple** update index setting example",
+                                    "value": {
+                                        "index": {
+                                            "number_of_replicas": 2
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "acknowledged": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "HTTPBasic": []
+                }]
+            }
+        },
+        "/{index}/_update/{_id}": {
+            "post": {
+                "tags": [
+                    "🥳 Update Documents"
+                ],
+                "summary": "Update Document",
+                "description": "Inserting a document with an existing document _id will replace the existing document - So\nif you need to replace a whole document with a existing document just use the create document \nwith `_id` end point.\nThere are two types of updates `doc` and `script`:\n\n- doc is used to add or update specific fields\n- script is used to perform more complex updates (e.g. adding an item to an existing list)",
+                "operationId": "update_document__index___update___id__post",
+                "parameters": [{
+                        "required": true,
+                        "schema": {
+                            "title": "Index",
+                            "type": "string"
+                        },
+                        "name": "index",
+                        "in": "path"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Documemt _id",
+                            "type": "string"
+                        },
+                        "name": "_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Request",
+                                "type": "object"
+                            },
+                            "examples": {
+                                "update_document_new_field": {
+                                    "summary": "Add a field to a document",
+                                    "description": "Add one additional field to a elasticsearch document",
+                                    "value": {
+                                        "doc": {
+                                            "newField": "newFieldValue"
+                                        }
+                                    }
+                                },
+                                "update_document_script_remove_field": {
+                                    "summary": "Remove a field from a document",
+                                    "description": "Remove a field from one elasticsearch document",
+                                    "value": {
+                                        "script": "ctx._source.remove('newField')"
+                                    }
+                                },
+                                "update_document_add_list": {
+                                    "summary": "Add a list to a document",
+                                    "description": "Add a list to an existing document",
+                                    "value": {
+                                        "doc": {
+                                            "newList": [
+                                                1,
+                                                3,
+                                                45,
+                                                777
+                                            ]
+                                        }
+                                    }
+                                },
+                                "update_document_add_item_to_list_if_not_present": {
+                                    "summary": "Add an item to a list if not already present",
+                                    "description": "Add an item to a list if not already present, note how the version number is not incremented and the result is `noop` when the value already exists in the list",
+                                    "value": {
+                                        "script": {
+                                            "source": "/* first check to see if value is in the list */  if  (ctx._source.newList.contains(params.tag) != true) /* add it if not present */ {ctx._source.newList.add(params.tag)} else { ctx.op = 'none' }",
+                                            "lang": "painless",
+                                            "params": {
+                                                "tag": 10000000000
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "_index": "country",
+                                            "_type": "_doc",
+                                            "_id": "UYIP9nsBc-WDXl5o2rS7",
+                                            "_version": 4,
+                                            "result": "updated",
+                                            "_shards": {
+                                                "total": 1,
+                                                "successful": 1,
+                                                "failed": 0
+                                            },
+                                            "_seq_no": 32,
+                                            "_primary_term": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "HTTPBasic": []
+                }]
+            }
+        },
+        "/{index}/_update_by_query": {
+            "post": {
+                "tags": [
+                    "🥳 Update Documents"
+                ],
+                "summary": "Update By Query",
+                "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
+                "operationId": "update_by_query__index___update_by_query_post",
+                "parameters": [{
+                        "required": true,
+                        "schema": {
+                            "title": "Index",
+                            "type": "string"
+                        },
+                        "name": "index",
+                        "in": "path"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Wait For Completion",
+                            "type": "boolean",
+                            "default": false,
+                            "desription": "submit asynchronously flag"
+                        },
+                        "name": "wait_for_completion",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/update_operations__schema__search_model"
+                            },
+                            "examples": {
+                                "update_document_by_query_add_new_field": {
+                                    "summary": "Add a field to documents that meet query",
+                                    "description": "Add one additional field to all documents that meet the query",
+                                    "value": {
+                                        "script": {
+                                            "source": "ctx._source.bulkAddedField = 'updateByQuery'",
+                                            "lang": "painless"
+                                        },
+                                        "query": {
+                                            "match": {
+                                                "subregion": "Asia"
+                                            }
+                                        }
+                                    }
+                                },
+                                "update_document_by_query_remove_new_field": {
+                                    "summary": "Remove a field from a document based on a query",
+                                    "description": "Remove one  field to all documents that meet the query",
+                                    "value": {
+                                        "script": {
+                                            "source": "ctx._source.remove('bulkAddedField')",
+                                            "lang": "painless"
+                                        },
+                                        "query": {
+                                            "match": {
+                                                "subregion": "Asia"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response(sync)": {
+                                        "summary": "JSON Response(sync)",
+                                        "value": {
+                                            "took": 139,
+                                            "timed_out": false,
+                                            "total": 3,
+                                            "updated": 3,
+                                            "deleted": 0,
+                                            "batches": 1,
+                                            "version_conflicts": 0,
+                                            "noops": 0,
+                                            "retries": {
+                                                "bulk": 0,
+                                                "search": 0
+                                            },
+                                            "throttled_millis": 0,
+                                            "requests_per_second": -1,
+                                            "throttled_until_millis": 0,
+                                            "failures": []
+                                        }
+                                    },
+                                    "JSON Response(async)": {
+                                        "summary": "JSON Response(async)",
+                                        "value": {
+                                            "task": "houRpFPvSzSZe_TwFBhyFg:4125"
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -263,10 +667,10 @@
         "/{index}/_doc/{_id}": {
             "get": {
                 "tags": [
-                    "🎉 Read"
+                    "🎉 Retrieve Documents"
                 ],
                 "summary": "Retrieve Document By Id",
-                "description": "This end point simply retrieves a document based on the provided **_id**",
+                "description": "This end point simply retrieves a document based on the provided `_id`. \n\nNote the structure of the document returned:\n- At the top level we have various meta data about the document (e.g. `index` and `version`). \n\n- The original document is nested in a field called `_source`. ",
                 "operationId": "retrieve_document_by_id__index___doc___id__get",
                 "parameters": [{
                         "required": true,
@@ -289,10 +693,32 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "_index": "country",
+                                            "_type": "_doc",
+                                            "_id": "1",
+                                            "_version": 4,
+                                            "_seq_no": 3,
+                                            "_primary_term": 1,
+                                            "found": true,
+                                            "_source": {
+                                                "name": "Afghanistan",
+                                                "alpha2Code": "AF",
+                                                "capital": "Kabul",
+                                                "region": "Asia",
+                                                "subregion": "Southern Asia",
+                                                "area": 652230
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -313,10 +739,10 @@
             },
             "post": {
                 "tags": [
-                    "🚀 Create"
+                    "🚀 Create Documents"
                 ],
                 "summary": "Create Document With Id",
-                "description": "Store a document into elasticsearch while specifying an _id for the record.\n\nIf the index to store the document does not already exist it will be created \nwith the default storage and indexing parameters. The HTTP response code is 201 for this request. ",
+                "description": "Store a document into elasticsearch while specifying an `_id` for the record.\n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mapping parameters applied. \n\nIf the index and `_id` already exist then the document will be replaced. \n\nPlease see how the sample response differs (i.e. the `result` and `_version` fields)",
                 "operationId": "create_document_with_id__index___doc___id__post",
                 "parameters": [{
                         "required": true,
@@ -449,11 +875,47 @@
                     "required": true
                 },
                 "responses": {
-                    "201": {
-                        "description": "Successful Response",
+                    "200": {
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response(Version 1)": {
+                                        "summary": "JSON Response(Version 1)",
+                                        "value": {
+                                            "_index": "country",
+                                            "_type": "_doc",
+                                            "_id": "1",
+                                            "_version": 1,
+                                            "result": "created",
+                                            "_shards": {
+                                                "total": 1,
+                                                "successful": 1,
+                                                "failed": 0
+                                            },
+                                            "_seq_no": 0,
+                                            "_primary_term": 1
+                                        }
+                                    },
+                                    "JSON Response(Version 2)": {
+                                        "summary": "JSON Response(Version 2)",
+                                        "value": {
+                                            "_index": "country",
+                                            "_type": "_doc",
+                                            "_id": "1",
+                                            "_version": 2,
+                                            "result": "updated",
+                                            "_shards": {
+                                                "total": 1,
+                                                "successful": 1,
+                                                "failed": 0
+                                            },
+                                            "_seq_no": 5,
+                                            "_primary_term": 1
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -474,10 +936,10 @@
             },
             "delete": {
                 "tags": [
-                    "🦄 Delete"
+                    "🦄 Delete Documents"
                 ],
                 "summary": "Delete Document",
-                "description": "Delete an individual document based on the document id",
+                "description": "Delete an individual document based on the document `_id`.",
                 "operationId": "delete_document__index___doc___id__delete",
                 "parameters": [{
                         "required": true,
@@ -507,6 +969,32 @@
                             }
                         }
                     },
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "_index": "country",
+                                            "_type": "_doc",
+                                            "_id": "1",
+                                            "_version": 5,
+                                            "result": "deleted",
+                                            "_shards": {
+                                                "total": 1,
+                                                "successful": 1,
+                                                "failed": 0
+                                            },
+                                            "_seq_no": 13,
+                                            "_primary_term": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {
@@ -526,10 +1014,10 @@
         "/{index}/_doc": {
             "post": {
                 "tags": [
-                    "🚀 Create"
+                    "🚀 Create Documents"
                 ],
                 "summary": "Create Document Without Id",
-                "description": "Store a document into elasticsearch, the _id for the record will be generated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default storage and indexing parameters. The HTTP response code is 201 for this request. ",
+                "description": "Store a document into elasticsearch, the `_id` for the record will be \ngenerated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mappings. \n\nThe HTTP response code is 201 for this request. ",
                 "operationId": "create_document_without_id__index___doc_post",
                 "parameters": [{
                     "required": true,
@@ -653,71 +1141,29 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [{
-                    "HTTPBasic": []
-                }]
-            }
-        },
-        "/{index}/_bulk": {
-            "post": {
-                "tags": [
-                    "🚀 Create"
-                ],
-                "summary": "Create Documents In Bulk",
-                "description": "Store a document into elasticsearch, the _id for the record will be generated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default storage and indexing parameters. The HTTP response code is 201 for this request. ",
-                "operationId": "create_documents_in_bulk__index___bulk_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Request",
-                                "type": "string"
-                            },
-                            "examples": {
-                                "simple_countries": {
-                                    "summary": "A List of Complex Countries",
-                                    "description": "A `complex` document with many fields of different types",
-                                    "value": {
-                                        "index": {
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
                                             "_index": "country",
-                                            "_id": 0
+                                            "_type": "_doc",
+                                            "_id": "SoK49XsBc-WDXl5oTbQG",
+                                            "_version": 1,
+                                            "result": "created",
+                                            "_shards": {
+                                                "total": 1,
+                                                "successful": 1,
+                                                "failed": 0
+                                            },
+                                            "_seq_no": 6,
+                                            "_primary_term": 1
                                         }
                                     }
-                                },
-                                "complex_countries": {
-                                    "summary": "A List of Complex Countries",
-                                    "description": "A `complex` document with many fields of different types",
-                                    "value": "Phone: {phone_number} \n Local: 012-345-6789"
                                 }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
                             }
                         }
                     },
@@ -740,11 +1186,11 @@
         "/{index}/_search": {
             "post": {
                 "tags": [
-                    "🎉 Read"
+                    "🎉 Retrieve Documents"
                 ],
-                "summary": "Search Document",
-                "description": "Search for all documents in the specified index. \n\nA number of example query types have been provided. \n\nThis end point can been used to sample some documents when submitted without a body.",
-                "operationId": "search_document__index___search_post",
+                "summary": "Retrieve Documents By Search",
+                "description": "This is the most feature rich endpoint in elasticsearch - coming from sql the searches that you can\nperform will **blown your mind**. \n\nWe will just cover the basics here now - but lots more to come on this. \nA number of example query types have been provided. \n\nThis end point can also been used to sample some documents when submitted without a request body \n(i.e. with no search parameters). By default only ten documents will be returned. \n\nThe sample response shows illustrates the structure that will be returned. \nAt the top level we have details about the search execution (e.g. `took`, `timed_out` and shard details)\nThen we have a `hits` key which has summary details on the search (e.g. `max_score` and `total` hits)\nas well as sub `hits` key which lists the search results in score order.  ",
+                "operationId": "retrieve_documents_by_search__index___search_post",
                 "parameters": [{
                         "required": true,
                         "schema": {
@@ -769,7 +1215,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/search_model"
+                                "$ref": "#/components/schemas/retrieve_operations__schema__search_model"
                             },
                             "examples": {
                                 "query_string_query": {
@@ -812,10 +1258,75 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response": {
+                                        "summary": "JSON Response",
+                                        "value": {
+                                            "took": 26,
+                                            "timed_out": false,
+                                            "_shards": {
+                                                "total": 1,
+                                                "successful": 1,
+                                                "skipped": 0,
+                                                "failed": 0
+                                            },
+                                            "hits": {
+                                                "total": {
+                                                    "value": 3,
+                                                    "relation": "eq"
+                                                },
+                                                "max_score": 0.036367644,
+                                                "hits": [{
+                                                        "_index": "country",
+                                                        "_type": "_doc",
+                                                        "_id": "1",
+                                                        "_score": 0.036367644,
+                                                        "_source": {
+                                                            "name": "Afghanistan",
+                                                            "alpha2Code": "AF",
+                                                            "capital": "Kabul",
+                                                            "region": "Asia",
+                                                            "subregion": "Southern Asia",
+                                                            "area": 652230
+                                                        }
+                                                    },
+                                                    {
+                                                        "_index": "country",
+                                                        "_type": "_doc",
+                                                        "_id": "5",
+                                                        "_score": 0.036367644,
+                                                        "_source": {
+                                                            "name": "Afghanistan",
+                                                            "alpha2Code": "AF",
+                                                            "capital": "Kabul",
+                                                            "region": "Asia",
+                                                            "subregion": "Southern Asia",
+                                                            "area": 652230
+                                                        }
+                                                    },
+                                                    {
+                                                        "_index": "country",
+                                                        "_type": "_doc",
+                                                        "_id": "UIK69XsBc-WDXl5oS7Q1",
+                                                        "_score": 0.036367644,
+                                                        "_source": {
+                                                            "name": "Afghanistan",
+                                                            "alpha2Code": "AF",
+                                                            "capital": "Kabul",
+                                                            "region": "Asia",
+                                                            "subregion": "Southern Asia",
+                                                            "area": 652230
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -838,25 +1349,37 @@
         "/{index}/_delete_by_query": {
             "post": {
                 "tags": [
-                    "🦄 Delete"
+                    "🦄 Delete Documents"
                 ],
                 "summary": "Delete By Query",
-                "description": "Delete all documents that match a query",
+                "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
                 "operationId": "delete_by_query__index___delete_by_query_post",
                 "parameters": [{
-                    "required": true,
-                    "schema": {
-                        "title": "Index",
-                        "type": "string"
+                        "required": true,
+                        "schema": {
+                            "title": "Index",
+                            "type": "string"
+                        },
+                        "name": "index",
+                        "in": "path"
                     },
-                    "name": "index",
-                    "in": "path"
-                }],
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Wait For Completion",
+                            "type": "boolean",
+                            "default": false,
+                            "desription": "submit asynchronously flag"
+                        },
+                        "name": "wait_for_completion",
+                        "in": "query"
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/search_model"
+                                "$ref": "#/components/schemas/search_operations__schema__search_model"
                             },
                             "examples": {
                                 "query_string_query": {
@@ -900,74 +1423,38 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Success",
                         "content": {
                             "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [{
-                    "HTTPBasic": []
-                }]
-            }
-        },
-        "/{index}/_settings": {
-            "put": {
-                "tags": [
-                    "🥳 Update"
-                ],
-                "summary": "Update Index Settings",
-                "description": "Store a Country Record into OpenSearch and specify _id for the document \n\nPOSTs the document into OpenSearch, the index will be automatically created\nwith the default storage parameters ",
-                "operationId": "update_index_settings__index___settings_put",
-                "parameters": [{
-                    "required": true,
-                    "schema": {
-                        "title": "Index",
-                        "type": "string"
-                    },
-                    "name": "index",
-                    "in": "path"
-                }],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Request",
-                                "type": "object"
-                            },
-                            "examples": {
-                                "update_index_setting": {
-                                    "summary": "A update to an index setting",
-                                    "description": "A **simple** update index setting example",
-                                    "value": {
-                                        "index": {
-                                            "number_of_replicas": 2
+                                "schema": {},
+                                "examples": {
+                                    "JSON Response(sync)": {
+                                        "summary": "JSON Response(sync)",
+                                        "value": {
+                                            "took": 67,
+                                            "timed_out": false,
+                                            "total": 8,
+                                            "deleted": 8,
+                                            "batches": 1,
+                                            "version_conflicts": 0,
+                                            "noops": 0,
+                                            "retries": {
+                                                "bulk": 0,
+                                                "search": 0
+                                            },
+                                            "throttled_millis": 0,
+                                            "requests_per_second": -1,
+                                            "throttled_until_millis": 0,
+                                            "failures": []
+                                        }
+                                    },
+                                    "JSON Response(async)": {
+                                        "summary": "JSON Response(async)",
+                                        "value": {
+                                            "task": "houRpFPvSzSZe_TwFBhyFg:4125"
                                         }
                                     }
                                 }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
                             }
                         }
                     },
@@ -1183,7 +1670,7 @@
                 "title": "format_types",
                 "enum": [
                     "json",
-                    "csv"
+                    "column"
                 ],
                 "type": "string",
                 "description": "An enumeration."
@@ -1238,12 +1725,12 @@
                     }
                 }
             },
-            "search_model": {
+            "retrieve_operations__schema__search_model": {
                 "title": "search_model",
                 "type": "object",
                 "properties": {
                     "query": {
-                        "$ref": "#/components/schemas/search_query"
+                        "$ref": "#/components/schemas/retrieve_operations__schema__search_query"
                     },
                     "size": {
                         "title": "Size",
@@ -1255,7 +1742,69 @@
                     }
                 }
             },
-            "search_query": {
+            "retrieve_operations__schema__search_query": {
+                "title": "search_query",
+                "type": "object",
+                "properties": {
+                    "match": {
+                        "title": "Match",
+                        "type": "object"
+                    },
+                    "range": {
+                        "title": "Range",
+                        "type": "object"
+                    }
+                }
+            },
+            "search_operations__schema__search_model": {
+                "title": "search_model",
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "$ref": "#/components/schemas/search_operations__schema__search_query"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "type": "integer"
+                    },
+                    "track_total_hits": {
+                        "title": "Track Total Hits",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "search_operations__schema__search_query": {
+                "title": "search_query",
+                "type": "object",
+                "properties": {
+                    "match": {
+                        "title": "Match",
+                        "type": "object"
+                    },
+                    "range": {
+                        "title": "Range",
+                        "type": "object"
+                    }
+                }
+            },
+            "update_operations__schema__search_model": {
+                "title": "search_model",
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "$ref": "#/components/schemas/update_operations__schema__search_query"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "type": "integer"
+                    },
+                    "track_total_hits": {
+                        "title": "Track Total Hits",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "update_operations__schema__search_query": {
                 "title": "search_query",
                 "type": "object",
                 "properties": {
@@ -1281,16 +1830,19 @@
             "name": "🎊 Cluster Basics"
         },
         {
-            "name": "🚀 Create"
+            "name": "✨ Index Operations"
         },
         {
-            "name": "🎉 Read"
+            "name": "🚀 Create Documents"
         },
         {
-            "name": "🥳 Update"
+            "name": "🎉 Retrieve Documents"
         },
         {
-            "name": "🦄 Delete"
+            "name": "🥳 Update Documents"
+        },
+        {
+            "name": "🦄 Delete Documents"
         }
     ]
 }
