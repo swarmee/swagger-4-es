@@ -2,9 +2,8 @@
 
 The purpose of this repo is to demonstrate how you can setup a Swagger UI page (i.e. an openapi specification) for Elasticsearch/Opensearch endpoints of interest. 
 
-If you just want to see the Swagger UI page - [go here](https://www.swarmee.net/swagger-4-es/nginx/www-root/swagger.html)
-
-If you have already setup CORS on your elasticsearch cluster and want to submit requests from the Swagger UI page to your cluster - [go here](https://www.swarmee.net/swagger-4-es/nginx/www-root/index.html)
+- If you just want to see the Swagger UI page - [go here](https://www.swarmee.net/swagger-4-es/nginx/www-root/swagger.html)
+- If you have already setup CORS on your elasticsearch cluster and want to submit requests from the Swagger UI page to your cluster - [go here](https://www.swarmee.net/swagger-4-es/nginx/www-root/index.html)
 
 ### Why Create a Swagger Page for Elasticsearch
 
