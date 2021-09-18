@@ -12,7 +12,7 @@
         "/_cluster/health": {
             "get": {
                 "tags": [
-                    "🎊 Cluster Basics"
+                    "\ud83c\udf8a Cluster Basics"
                 ],
                 "summary": "Retrieve Cluster Health",
                 "description": "Retrieve Cluster Health \n\nIdeally your cluster is green (which means no unreplicated shards) \n\nYellow means you have some unreplicated shards - if you create an index it may by default have mulitple shards.",
@@ -58,7 +58,7 @@
         "/_cat/indices": {
             "get": {
                 "tags": [
-                    "✨ Index Operations"
+                    "\u2728 Index Operations"
                 ],
                 "summary": "List Indices",
                 "description": "`cat` stands for Compact and Aligned Text - there are many elasticserch endpoints under `_cat` \n\nThese endpoints are meant for humans to read as the text is neatly aligned in columns. \n\nHowever they have evolved to have a format parameter so you can get `json` back from them also.\n\nThis `cat` endpoint list indices and provides their state \n\nThe **v** parameter toggles the column headings on and off in the column view.  ",
@@ -122,16 +122,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -142,7 +132,7 @@
         "/{index}/": {
             "get": {
                 "tags": [
-                    "✨ Index Operations"
+                    "\u2728 Index Operations"
                 ],
                 "summary": "View Index Details",
                 "description": "View the aliases, mappings and settings for an index.\n\n_**Aliases**_ are similar to table views from sql land - i.e. they don't hold data - they just point to one or more indexes. \n\n_**Mappings**_ defines the type of each field and how it is indexes \n\n_**Settings**_ defines the index level configuration.   ",
@@ -187,16 +177,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -205,7 +185,7 @@
             },
             "put": {
                 "tags": [
-                    "✨ Index Operations"
+                    "\u2728 Index Operations"
                 ],
                 "summary": "Create Index",
                 "description": "Create an empty index in elasticsearch with a predefined configuration. \n\nOver time you will probably want to look at index templates - however you need to understand the fundamentals of index settings. \n\nBelow there are two example index configurations. ",
@@ -275,16 +255,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -293,7 +263,7 @@
             },
             "delete": {
                 "tags": [
-                    "✨ Index Operations"
+                    "\u2728 Index Operations"
                 ],
                 "summary": "Delete Index",
                 "description": "Delete an index (and all documents contained within the index)\n\nThese types of endpoints support asterisk (`*`) as a wild. \n\nThis is really helpful when you need to delete indices which have the date in the index name. E.g.; \n\n``` bash\ncurl -X 'DELETE' 'https://localhost/2020-01-*-applogs/' \n```\nBut be careful.",
@@ -323,16 +293,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -343,7 +303,7 @@
         "/{index}/_settings": {
             "put": {
                 "tags": [
-                    "✨ Index Operations"
+                    "\u2728 Index Operations"
                 ],
                 "summary": "Update Index Settings",
                 "description": "Update an existing indexes settings. \n\nFor example you might want to build an index with settings optimised for speed, however once its built you might want to optimise for redundancy (e.g. increasing the number of replicates), \n\n**Not** all index settings can be changed once an index is created.  ",
@@ -395,16 +355,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -415,7 +365,7 @@
         "/{index}/_update/{_id}": {
             "post": {
                 "tags": [
-                    "🥳 Update Documents"
+                    "\ud83e\udd73 Update Documents"
                 ],
                 "summary": "Update Document",
                 "description": "Inserting a document with an existing document _id will replace the existing document - So\nif you need to replace a whole document with a existing document just use the create document \nwith `_id` end point.\nThere are two types of updates `doc` and `script`:\n\n- doc is used to add or update specific fields\n- script is used to perform more complex updates (e.g. adding an item to an existing list)",
@@ -522,16 +472,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -542,7 +482,7 @@
         "/{index}/_update_by_query": {
             "post": {
                 "tags": [
-                    "🥳 Update Documents"
+                    "\ud83e\udd73 Update Documents"
                 ],
                 "summary": "Update By Query",
                 "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
@@ -647,16 +587,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -667,7 +597,7 @@
         "/{index}/_doc/{_id}": {
             "get": {
                 "tags": [
-                    "🎉 Retrieve Documents"
+                    "\ud83c\udf89 Retrieve Documents"
                 ],
                 "summary": "Retrieve Document By Id",
                 "description": "This end point simply retrieves a document based on the provided `_id`. \n\nNote the structure of the document returned:\n- At the top level we have various meta data about the document (e.g. `index` and `version`). \n\n- The original document is nested in a field called `_source`. ",
@@ -721,16 +651,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -739,7 +659,7 @@
             },
             "post": {
                 "tags": [
-                    "🚀 Create Documents"
+                    "\ud83d\ude80 Create Documents"
                 ],
                 "summary": "Create Document With Id",
                 "description": "Store a document into elasticsearch while specifying an `_id` for the record.\n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mapping parameters applied. \n\nIf the index and `_id` already exist then the document will be replaced. \n\nPlease see how the sample response differs (i.e. the `result` and `_version` fields)",
@@ -770,9 +690,9 @@
                                 "$ref": "#/components/schemas/country_model"
                             },
                             "examples": {
-                                "simple_single_country": {
-                                    "summary": "A simple document",
-                                    "description": "A **simple** document with only a few fields",
+                                "simple_single_country1": {
+                                    "summary": "A simple document (1)",
+                                    "description": "A **simple** Afghanistan document with only a few fields",
                                     "value": {
                                         "name": "Afghanistan",
                                         "alpha2Code": "AF",
@@ -782,91 +702,122 @@
                                         "area": 652230
                                     }
                                 },
+                                "simple_single_country2": {
+                                    "summary": "A simple document (2)",
+                                    "description": "A **simple** \u00c5land Islands document with only a few fields",
+                                    "value": {
+                                        "name": "\u00c5land Islands",
+                                        "topLevelDomain": [
+                                            ".ax"
+                                        ],
+                                        "alpha2Code": "AX",
+                                        "alpha3Code": "ALA",
+                                        "callingCodes": [
+                                            "358"
+                                        ],
+                                        "capital": "Mariehamn",
+                                        "region": "Europe",
+                                        "subregion": "Northern Europe",
+                                        "population": 28875,
+                                        "area": 1580
+                                    }
+                                },
+                                "simple_single_country3": {
+                                    "summary": "A simple document (3)",
+                                    "description": "A **simple** American Samoa document with only a few fields",
+                                    "value": {
+                                        "name": "American Samoa",
+                                        "topLevelDomain": [
+                                            ".as"
+                                        ],
+                                        "alpha2Code": "AS",
+                                        "alpha3Code": "ASM",
+                                        "callingCodes": [
+                                            "1684"
+                                        ],
+                                        "capital": "Pago Pago",
+                                        "region": "Oceania",
+                                        "subregion": "Polynesia",
+                                        "population": 57100,
+                                        "area": 199
+                                    }
+                                },
                                 "complex_single_country": {
                                     "summary": "A complex document",
-                                    "description": "A `complex` document with many fields of different types",
+                                    "description": "A `complex` Angola document with many fields of different types",
                                     "value": {
-                                        "name": "Afghanistan",
+                                        "name": "Angola",
                                         "topLevelDomain": [
-                                            ".af"
+                                            ".ao"
                                         ],
-                                        "alpha2Code": "AF",
-                                        "alpha3Code": "AFG",
+                                        "alpha2Code": "AO",
+                                        "alpha3Code": "AGO",
                                         "callingCodes": [
-                                            "93"
+                                            "244"
                                         ],
-                                        "capital": "Kabul",
+                                        "capital": "Luanda",
                                         "altSpellings": [
-                                            "AF",
-                                            "Afġānistān"
+                                            "AO",
+                                            "Rep\u00fablica de Angola",
+                                            "\u0281\u025bpublika de an'\u0261\u0254la"
                                         ],
-                                        "region": "Asia",
-                                        "subregion": "Southern Asia",
-                                        "population": 27657145,
-                                        "latlng": [
-                                            33,
-                                            65
+                                        "region": "Africa",
+                                        "subregion": "Middle Africa",
+                                        "population": 25868000,
+                                        "latlng": [-12.5,
+                                            18.5
                                         ],
-                                        "demonym": "Afghan",
-                                        "area": 652230,
-                                        "gini": 27.8,
+                                        "demonym": "Angolan",
+                                        "area": 1246700,
+                                        "gini": 58.6,
                                         "timezones": [
-                                            "UTC+04:30"
+                                            "UTC+01:00"
                                         ],
                                         "borders": [
-                                            "IRN",
-                                            "PAK",
-                                            "TKM",
-                                            "UZB",
-                                            "TJK",
-                                            "CHN"
+                                            "COG",
+                                            "COD",
+                                            "ZMB",
+                                            "NAM"
                                         ],
-                                        "nativeName": "افغانستان",
-                                        "numericCode": "004",
+                                        "nativeName": "Angola",
+                                        "numericCode": "024",
                                         "currencies": [{
-                                            "code": "AFN",
-                                            "name": "Afghan afghani",
-                                            "symbol": "؋"
+                                            "code": "AOA",
+                                            "name": "Angolan kwanza",
+                                            "symbol": "Kz"
                                         }],
                                         "languages": [{
-                                                "iso639_1": "ps",
-                                                "iso639_2": "pus",
-                                                "name": "Pashto",
-                                                "nativeName": "پښتو"
-                                            },
-                                            {
-                                                "iso639_1": "uz",
-                                                "iso639_2": "uzb",
-                                                "name": "Uzbek",
-                                                "nativeName": "Oʻzbek"
-                                            },
-                                            {
-                                                "iso639_1": "tk",
-                                                "iso639_2": "tuk",
-                                                "name": "Turkmen",
-                                                "nativeName": "Türkmen"
-                                            }
-                                        ],
-                                        "translations": {
-                                            "de": "Afghanistan",
-                                            "es": "Afganistán",
-                                            "fr": "Afghanistan",
-                                            "ja": "アフガニスタン",
-                                            "it": "Afghanistan",
-                                            "br": "Afeganistão",
-                                            "pt": "Afeganistão",
-                                            "nl": "Afghanistan",
-                                            "hr": "Afganistan",
-                                            "fa": "افغانستان"
-                                        },
-                                        "flag": "https://restcountries.eu/data/afg.svg",
-                                        "regionalBlocs": [{
-                                            "acronym": "SAARC",
-                                            "name": "South Asian Association for Regional Cooperation",
-                                            "otherAcronyms": [],
-                                            "otherNames": []
+                                            "iso639_1": "pt",
+                                            "iso639_2": "por",
+                                            "name": "Portuguese",
+                                            "nativeName": "Portugu\u00eas"
                                         }],
-                                        "cioc": "AFG"
+                                        "translations": {
+                                            "de": "Angola",
+                                            "es": "Angola",
+                                            "fr": "Angola",
+                                            "ja": "\u30a2\u30f3\u30b4\u30e9",
+                                            "it": "Angola",
+                                            "br": "Angola",
+                                            "pt": "Angola",
+                                            "nl": "Angola",
+                                            "hr": "Angola",
+                                            "fa": "\u0622\u0646\u06af\u0648\u0644\u0627"
+                                        },
+                                        "flag": "https://restcountries.eu/data/ago.svg",
+                                        "regionalBlocs": [{
+                                            "acronym": "AU",
+                                            "name": "African Union",
+                                            "otherAcronyms": [],
+                                            "otherNames": [
+                                                "\u0627\u0644\u0627\u062a\u062d\u0627\u062f \u0627\u0644\u0623\u0641\u0631\u064a\u0642\u064a",
+                                                "Union africaine",
+                                                "Uni\u00e3o Africana",
+                                                "Uni\u00f3n Africana",
+                                                "Umoja wa Afrika"
+                                            ]
+                                        }],
+                                        "cioc": "ANG"
                                     }
                                 }
                             }
@@ -881,8 +832,8 @@
                             "application/json": {
                                 "schema": {},
                                 "examples": {
-                                    "JSON Response(Version 1)": {
-                                        "summary": "JSON Response(Version 1)",
+                                    "JSON Response(Created)": {
+                                        "summary": "JSON Response(Created)",
                                         "value": {
                                             "_index": "country",
                                             "_type": "_doc",
@@ -898,8 +849,8 @@
                                             "_primary_term": 1
                                         }
                                     },
-                                    "JSON Response(Version 2)": {
-                                        "summary": "JSON Response(Version 2)",
+                                    "JSON Response(Updated)": {
+                                        "summary": "JSON Response(Updated)",
                                         "value": {
                                             "_index": "country",
                                             "_type": "_doc",
@@ -918,16 +869,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -936,7 +877,7 @@
             },
             "delete": {
                 "tags": [
-                    "🦄 Delete Documents"
+                    "\ud83e\udd84 Delete Documents"
                 ],
                 "summary": "Delete Document",
                 "description": "Delete an individual document based on the document `_id`.",
@@ -962,17 +903,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "201": {
                         "description": "Success",
                         "content": {
                             "application/json": {
+                                "schema": {},
                                 "examples": {
                                     "JSON Response": {
                                         "summary": "JSON Response",
@@ -994,16 +928,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -1014,7 +938,7 @@
         "/{index}/_doc": {
             "post": {
                 "tags": [
-                    "🚀 Create Documents"
+                    "\ud83d\ude80 Create Documents"
                 ],
                 "summary": "Create Document Without Id",
                 "description": "Store a document into elasticsearch, the `_id` for the record will be \ngenerated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mappings. \n\nThe HTTP response code is 201 for this request. ",
@@ -1035,9 +959,9 @@
                                 "$ref": "#/components/schemas/country_model"
                             },
                             "examples": {
-                                "simple_single_country": {
-                                    "summary": "A simple document",
-                                    "description": "A **simple** document with only a few fields",
+                                "simple_single_country1": {
+                                    "summary": "A simple document (1)",
+                                    "description": "A **simple** Afghanistan document with only a few fields",
                                     "value": {
                                         "name": "Afghanistan",
                                         "alpha2Code": "AF",
@@ -1047,91 +971,122 @@
                                         "area": 652230
                                     }
                                 },
+                                "simple_single_country2": {
+                                    "summary": "A simple document (2)",
+                                    "description": "A **simple** \u00c5land Islands document with only a few fields",
+                                    "value": {
+                                        "name": "\u00c5land Islands",
+                                        "topLevelDomain": [
+                                            ".ax"
+                                        ],
+                                        "alpha2Code": "AX",
+                                        "alpha3Code": "ALA",
+                                        "callingCodes": [
+                                            "358"
+                                        ],
+                                        "capital": "Mariehamn",
+                                        "region": "Europe",
+                                        "subregion": "Northern Europe",
+                                        "population": 28875,
+                                        "area": 1580
+                                    }
+                                },
+                                "simple_single_country3": {
+                                    "summary": "A simple document (3)",
+                                    "description": "A **simple** American Samoa document with only a few fields",
+                                    "value": {
+                                        "name": "American Samoa",
+                                        "topLevelDomain": [
+                                            ".as"
+                                        ],
+                                        "alpha2Code": "AS",
+                                        "alpha3Code": "ASM",
+                                        "callingCodes": [
+                                            "1684"
+                                        ],
+                                        "capital": "Pago Pago",
+                                        "region": "Oceania",
+                                        "subregion": "Polynesia",
+                                        "population": 57100,
+                                        "area": 199
+                                    }
+                                },
                                 "complex_single_country": {
                                     "summary": "A complex document",
-                                    "description": "A `complex` document with many fields of different types",
+                                    "description": "A `complex` Angola document with many fields of different types",
                                     "value": {
-                                        "name": "Afghanistan",
+                                        "name": "Angola",
                                         "topLevelDomain": [
-                                            ".af"
+                                            ".ao"
                                         ],
-                                        "alpha2Code": "AF",
-                                        "alpha3Code": "AFG",
+                                        "alpha2Code": "AO",
+                                        "alpha3Code": "AGO",
                                         "callingCodes": [
-                                            "93"
+                                            "244"
                                         ],
-                                        "capital": "Kabul",
+                                        "capital": "Luanda",
                                         "altSpellings": [
-                                            "AF",
-                                            "Afġānistān"
+                                            "AO",
+                                            "Rep\u00fablica de Angola",
+                                            "\u0281\u025bpublika de an'\u0261\u0254la"
                                         ],
-                                        "region": "Asia",
-                                        "subregion": "Southern Asia",
-                                        "population": 27657145,
-                                        "latlng": [
-                                            33,
-                                            65
+                                        "region": "Africa",
+                                        "subregion": "Middle Africa",
+                                        "population": 25868000,
+                                        "latlng": [-12.5,
+                                            18.5
                                         ],
-                                        "demonym": "Afghan",
-                                        "area": 652230,
-                                        "gini": 27.8,
+                                        "demonym": "Angolan",
+                                        "area": 1246700,
+                                        "gini": 58.6,
                                         "timezones": [
-                                            "UTC+04:30"
+                                            "UTC+01:00"
                                         ],
                                         "borders": [
-                                            "IRN",
-                                            "PAK",
-                                            "TKM",
-                                            "UZB",
-                                            "TJK",
-                                            "CHN"
+                                            "COG",
+                                            "COD",
+                                            "ZMB",
+                                            "NAM"
                                         ],
-                                        "nativeName": "افغانستان",
-                                        "numericCode": "004",
+                                        "nativeName": "Angola",
+                                        "numericCode": "024",
                                         "currencies": [{
-                                            "code": "AFN",
-                                            "name": "Afghan afghani",
-                                            "symbol": "؋"
+                                            "code": "AOA",
+                                            "name": "Angolan kwanza",
+                                            "symbol": "Kz"
                                         }],
                                         "languages": [{
-                                                "iso639_1": "ps",
-                                                "iso639_2": "pus",
-                                                "name": "Pashto",
-                                                "nativeName": "پښتو"
-                                            },
-                                            {
-                                                "iso639_1": "uz",
-                                                "iso639_2": "uzb",
-                                                "name": "Uzbek",
-                                                "nativeName": "Oʻzbek"
-                                            },
-                                            {
-                                                "iso639_1": "tk",
-                                                "iso639_2": "tuk",
-                                                "name": "Turkmen",
-                                                "nativeName": "Türkmen"
-                                            }
-                                        ],
-                                        "translations": {
-                                            "de": "Afghanistan",
-                                            "es": "Afganistán",
-                                            "fr": "Afghanistan",
-                                            "ja": "アフガニスタン",
-                                            "it": "Afghanistan",
-                                            "br": "Afeganistão",
-                                            "pt": "Afeganistão",
-                                            "nl": "Afghanistan",
-                                            "hr": "Afganistan",
-                                            "fa": "افغانستان"
-                                        },
-                                        "flag": "https://restcountries.eu/data/afg.svg",
-                                        "regionalBlocs": [{
-                                            "acronym": "SAARC",
-                                            "name": "South Asian Association for Regional Cooperation",
-                                            "otherAcronyms": [],
-                                            "otherNames": []
+                                            "iso639_1": "pt",
+                                            "iso639_2": "por",
+                                            "name": "Portuguese",
+                                            "nativeName": "Portugu\u00eas"
                                         }],
-                                        "cioc": "AFG"
+                                        "translations": {
+                                            "de": "Angola",
+                                            "es": "Angola",
+                                            "fr": "Angola",
+                                            "ja": "\u30a2\u30f3\u30b4\u30e9",
+                                            "it": "Angola",
+                                            "br": "Angola",
+                                            "pt": "Angola",
+                                            "nl": "Angola",
+                                            "hr": "Angola",
+                                            "fa": "\u0622\u0646\u06af\u0648\u0644\u0627"
+                                        },
+                                        "flag": "https://restcountries.eu/data/ago.svg",
+                                        "regionalBlocs": [{
+                                            "acronym": "AU",
+                                            "name": "African Union",
+                                            "otherAcronyms": [],
+                                            "otherNames": [
+                                                "\u0627\u0644\u0627\u062a\u062d\u0627\u062f \u0627\u0644\u0623\u0641\u0631\u064a\u0642\u064a",
+                                                "Union africaine",
+                                                "Uni\u00e3o Africana",
+                                                "Uni\u00f3n Africana",
+                                                "Umoja wa Afrika"
+                                            ]
+                                        }],
+                                        "cioc": "ANG"
                                     }
                                 }
                             }
@@ -1166,16 +1121,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -1186,7 +1131,7 @@
         "/{index}/_search": {
             "post": {
                 "tags": [
-                    "🎉 Retrieve Documents"
+                    "\ud83c\udf89 Retrieve Documents"
                 ],
                 "summary": "Retrieve Documents By Search",
                 "description": "This is the most feature rich endpoint in elasticsearch - coming from sql the searches that you can\nperform will **blown your mind**. \n\nWe will just cover the basics here now - but lots more to come on this. \nA number of example query types have been provided. \n\nThis end point can also been used to sample some documents when submitted without a request body \n(i.e. with no search parameters). By default only ten documents will be returned. \n\nThe sample response shows illustrates the structure that will be returned. \nAt the top level we have details about the search execution (e.g. `took`, `timed_out` and shard details)\nThen we have a `hits` key which has summary details on the search (e.g. `max_score` and `total` hits)\nas well as sub `hits` key which lists the search results in score order.  ",
@@ -1329,16 +1274,6 @@
                                 }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [{
@@ -1349,7 +1284,7 @@
         "/{index}/_delete_by_query": {
             "post": {
                 "tags": [
-                    "🦄 Delete Documents"
+                    "\ud83e\udd84 Delete Documents"
                 ],
                 "summary": "Delete By Query",
                 "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
@@ -1454,16 +1389,6 @@
                                             "task": "houRpFPvSzSZe_TwFBhyFg:4125"
                                         }
                                     }
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -1827,22 +1752,22 @@
         }
     },
     "tags": [{
-            "name": "🎊 Cluster Basics"
+            "name": "\ud83c\udf8a Cluster Basics"
         },
         {
-            "name": "✨ Index Operations"
+            "name": "\u2728 Index Operations"
         },
         {
-            "name": "🚀 Create Documents"
+            "name": "\ud83d\ude80 Create Documents"
         },
         {
-            "name": "🎉 Retrieve Documents"
+            "name": "\ud83c\udf89 Retrieve Documents"
         },
         {
-            "name": "🥳 Update Documents"
+            "name": "\ud83e\udd73 Update Documents"
         },
         {
-            "name": "🦄 Delete Documents"
+            "name": "\ud83e\udd84 Delete Documents"
         }
     ]
 }
