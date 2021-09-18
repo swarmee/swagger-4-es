@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Elasticsearch Basics",
-        "description": "This Swagger UI page runs throught the basic Elasticsearch API end points. It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe Swagger UI page runs through the basics of index management then runs through all the basic `CRUD` operations. Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter.\n\nFor instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [Swarmee Blog](https://www.swarmee.net/blog/2021-09-02-Elasticsearch-Foundational-Training/).",
+        "description": "This Swagger UI page runs throught the basic Elasticsearch API end points. It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe Swagger UI page runs through the basics of index management then runs through all the basic `CRUD` operations. Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter.\n\nFor instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [Swarmee Blog](https://www.swarmee.net/blog/2021-09-02-Elasticsearch-Basic-Training/).",
         "version": "1.0"
     },
     "servers": [{
