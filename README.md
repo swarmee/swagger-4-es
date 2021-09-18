@@ -2,9 +2,15 @@
 
 The purpose of this repo is to demonstrate how you can setup a Swagger UI page (i.e. an openapi specification) for Elasticsearch/Opensearch endpoints of interest. 
 
-Why would you want to do this:
+If you just want to see the Swagger UI page - [go here] (https://www.swarmee.net/swagger-4-es/nginx/www-root/swagger.html)
 
-- Documenting the key endpoints saves a lot of google searching for precise parameters and lets you annotate specific end points (e.g. issues in dev/test check to see if the cluster has gone read-only due to space constraints). The example Swagger UI page provided in the repo demonstrates how to use the Swagger UI page as basic elasticsearch training.   
+If you have already setup CORS on your elasticsearch cluster and want to submit requests from the Swagger UI page to your cluster - [go here] (https://www.swarmee.net/swagger-4-es/nginx/www-root/index.html)
+
+### Why Create a Swagger Page for Elasticsearch
+
+Why would you want to setup your own Swagger Page to Elasticsearch:
+
+- Documenting the key endpoints saves a lot of google searching for precise parameters and lets you annotate specific end points (e.g. issues in dev/test check to see if the cluster has gone read-only due to space constraints). The example Swagger UI page provided in the repo demonstrates how to use the Swagger UI page for basic elasticsearch training.   
 
 - It's also much more precise and faster to go to a Swagger UI page and hit `try it out` and select a preconfigured payload from a list, than go into dev tools in kibana and write out a payload.
 
