@@ -15,6 +15,8 @@ Why would you want to setup your own Swagger Page to Elasticsearch:
 
 - It allows you to build automated tests again the openapi specification using tools like [schemathesis](https://schemathesis.readthedocs.io/en/stable/). So when you want to upgrade elasticsearch you can test the APIs and your configuration are performing the way you expect. The openapi specification can be used to drive your tests by having endpoints that create indexes with data and then query that data.
 
+- It allows you to create mock elasticsearch enpoints for frontend development with tools such as [postman.co](https://postman.co) or [openapi-mock](https://github.com/muonsoft/openapi-mock). 
+
 
 ### Prerequisite
 
