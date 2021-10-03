@@ -1,22 +1,16 @@
-## Elasticsearch 7.10 Compatible Cluster with Swagger-UI
+# Swagger API Specification for Elasticsearch (and Opensearch)
 
-The purpose of this repo is to demonstrate how you can setup a Swagger UI page (i.e. an openapi specification) for Elasticsearch/Opensearch endpoints of interest. 
+`Swagger-4-es` provides a Swagger UI page for the key elasticsearch (and Opensearch) endpoints. It's aimed at being a training resource to engineers starting off with elasticsearch. You may also consider customising the openapi specification (additional endpoints and notes) to become a training resource specific to your organisation.   
 
-- If you just want to see the Swagger UI page - [go here](https://www.swarmee.net/swagger-4-es/nginx/www-root/swagger.html)
-- If you have already setup CORS on your elasticsearch cluster and want to submit requests from the Swagger UI page to your cluster - [go here](https://www.swarmee.net/swagger-4-es/nginx/www-root/index.html)
+There are two ways you can use the Swagger UI page:
 
-### Why Create a Swagger Page for Elasticsearch
+1. From this website, by [clicking here](https://www.swarmee.net/swagger-4-es/swagger.html). This will allow you to connect to a cloud based elasticsearch cluster (that is enabled for CORS). You can follow the instructions [here](https://www.swarmee.net/blog/2021-09-02-Elasticsearch-Basic-Training/) for setting up an elasticsearch cloud instance. After clicking this link you will be asked to provide the URL of your elasticsearch cluster. 
 
-Why would you want to setup your own Swagger Page to Elasticsearch:
+2. Cloning this repository, and running an elasticsearch and nginx container locally, this option requires you to have docker and docker-compose setup on your PC (instructions below).
 
-- Documenting the key endpoints saves a lot of google searching for precise parameters and lets you annotate specific end points (e.g. issues in dev/test check to see if the cluster has gone read-only due to space constraints). The example Swagger UI page provided in the repo demonstrates how to use the Swagger UI page for basic elasticsearch training.   
+<details><summary>Local Cluster Setup Steps</summary>      
 
-- It's also much more precise and faster to go to a Swagger UI page and hit `try it out` and select a preconfigured payload from a list, than go into dev tools in kibana and write out a payload.
-
-- It allows you to build automated tests again the openapi specification using tools like [schemathesis](https://schemathesis.readthedocs.io/en/stable/). So when you want to upgrade elasticsearch you can test the APIs and your configuration are performing the way you expect. The openapi specification can be used to drive your tests by having endpoints that create indexes with data and then query that data.
-
-- It allows you to create mock elasticsearch enpoints for frontend development with tools such as [postman.co](https://postman.co) or [openapi-mock](https://github.com/muonsoft/openapi-mock). 
-
+Follow these steps if you are going with the second option above. 
 
 ### Prerequisite
 
@@ -25,6 +19,7 @@ The following software and configuration is required on your computer to boot up
 - `docker`. See these [docs](https://docs.docker.com/get-docker/) for instructions.
 - `docker-compose`. See these [docs](https://docs.docker.com/compose/install/) for instructions.
 - Increase the `mmap` count on linux systems. See these [docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html) for instructions.
+
 
 ### Usage
 
@@ -46,13 +41,9 @@ Then open [https://localhost/swagger.html](https://localhost/swagger.html) to se
 
 The cluster is also avaliable directly at [http://localhost:9200](http://localhost:9200)
 
-### Screenshot
+</details>
 
-Below is what the included Swagger UI page looks like;
-
-[![Swagger UI Screenshot](./Swagger-UI-Screenshot.png)](./Swagger-UI-Screenshot.png)
-
-### Technical Details
+<details><summary>How to Create Your Own Swagger UI page for Elastic</summary>    
 
 The way to set this up fo yourself is very straight forward:
 
@@ -78,3 +69,24 @@ const ui = SwaggerUIBundle({
 ```
 
 It's also possible to include the openapi schema directly in the `index.html` file. To do this replace the `url` parameter with the `spec` parameter and make it equal the openapi schema. 
+
+</details>
+
+<details><summary>Why Create Your Own Swagger UI Page</summary>    
+
+
+Why would you want to setup your own Swagger Page to Elasticsearch:
+
+- Documenting the key endpoints saves a lot of google searching for precise parameters and lets you annotate specific end points (e.g. issues in dev/test check to see if the cluster has gone read-only due to space constraints). The example Swagger UI page provided in the repo demonstrates how to use the Swagger UI page for basic elasticsearch training.   
+
+- It's also much more precise and faster to go to a Swagger UI page and hit `try it out` and select a preconfigured payload from a list, than go into dev tools in kibana and write out a payload.
+
+- It allows you to build automated tests again the openapi specification using tools like [schemathesis](https://schemathesis.readthedocs.io/en/stable/). So when you want to upgrade elasticsearch you can test the APIs and your configuration are performing the way you expect. The openapi specification can be used to drive your tests by having endpoints that create indexes with data and then query that data.
+
+- It allows you to create mock elasticsearch enpoints for frontend development with tools such as [postman.co](https://postman.co) or [openapi-mock](https://github.com/muonsoft/openapi-mock). 
+
+</details>
+
+### Screenshot
+
+[![Swagger UI Screenshot](./Swagger-UI-Screenshot.png)](./Swagger-UI-Screenshot.png)
