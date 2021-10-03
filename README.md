@@ -1,10 +1,8 @@
-# Swagger API Specification for Elasticsearch (and Opensearch)
-
 `Swagger-4-es` provides a Swagger UI page for the key elasticsearch (and Opensearch) endpoints. It's aimed at being a training resource to engineers starting off with elasticsearch. You may also consider customising the openapi specification (additional endpoints and notes) to become a training resource specific to your organisation.   
 
 There are two ways you can use the Swagger UI page:
 
-1. From this website, by [clicking here](https://www.swarmee.net/swagger-4-es/swagger.html). This will allow you to connect to a cloud based elasticsearch cluster (that is enabled for CORS). You can follow the instructions [here](https://www.swarmee.net/blog/2021-09-02-Elasticsearch-Basic-Training/) for setting up an elasticsearch cloud instance. After clicking this link you will be asked to provide the URL of your elasticsearch cluster. 
+1. From this website, by [clicking here](https://www.swarmee.net/swagger-4-es/swagger.html). This will allow you to connect to a cloud based elasticsearch cluster (that is enabled for CORS). You can follow the instructions [here](https://www.swarmee.net/swagger-4-es/elasticsearch-cloud-instance-setup/) for setting up an elasticsearch cloud instance. After clicking this link you will be asked to provide the URL of your elasticsearch cluster. 
 
 2. Cloning this repository, and running an elasticsearch and nginx container locally, this option requires you to have docker and docker-compose setup on your PC (instructions below).
 
