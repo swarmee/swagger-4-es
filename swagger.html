@@ -1211,7 +1211,7 @@
                                                                 }, {
                                                                     "range": {
                                                                         "gdp.amount": {
-                                                                            "lte": 7000000000
+                                                                            "gte": 7000000000
                                                                         }
                                                                     }
                                                                 }]
@@ -1837,36 +1837,36 @@
                                         "type": "object"
                                     },
                                     "examples": {
-                                        "Standard_Analyzer - Bermuda Republic": {
-                                            "summary": "Standard (Default) Anayzer - Bermuda Republic",
-                                            "description": "Standard analyzer.",
-                                            "value": {
-                                                "analyzer": "standard",
-                                                "text": "Bermuda Republic"
-                                            }
-                                        },
-                                        "Custom_Analyzer - Bermuda Republic": {
-                                            "summary": "Custom Analyzer",
-                                            "description": "Custom analyzer.",
-                                            "value": {
-                                                "field": "name",
-                                                "text": "Bermuda Republic"
-                                            }
-                                        },
                                         "Standard_Analyzer - The Bermudas": {
-                                            "summary": "Standard (Default) Anayzer - The Bermudas",
-                                            "description": "Standard analyzer.",
+                                            "summary": "Standard (Default) Anayzer - The Bermudas.",
+                                            "description": "Standard analyzer - `The Bermudas` is present in the source document.",
                                             "value": {
                                                 "analyzer": "standard",
                                                 "text": "The Bermudas"
                                             }
                                         },
                                         "Custom_Analyzer - The Bermudas": {
-                                            "summary": "Custom Analyzer",
-                                            "description": "Custom analyzer.",
+                                            "summary": "Custom Analyzer - The Bermudas.",
+                                            "description": "Custom analyzer - `The Bermudas` is present in the source document.",
                                             "value": {
                                                 "field": "name",
                                                 "text": "The Bermudas"
+                                            }
+                                        },
+                                        "Standard_Analyzer - Bermuda Republic": {
+                                            "summary": "Standard (Default) Anayzer - Bermuda Republic",
+                                            "description": "Standard analyzer - `Bermuda Republic` is present in the source document.",
+                                            "value": {
+                                                "analyzer": "standard",
+                                                "text": "Bermuda Republic"
+                                            }
+                                        },
+                                        "Custom_Analyzer - Bermuda Republic": {
+                                            "summary": "Custom Analyzer - Bermuda Republic",
+                                            "description": "Custom analyzer - `Bermuda Republic` is present in the source document.",
+                                            "value": {
+                                                "field": "name",
+                                                "text": "Bermuda Republic"
                                             }
                                         }
                                     }
@@ -2252,7 +2252,6 @@
                 "name": "\ud83d\udd25 Text Analysis"
             }]
         }
-
         window.onload = function() {
             // Begin Swagger UI call region
             const ui = SwaggerUIBundle({
