@@ -44,8 +44,8 @@
         var spec = {
             "openapi": "3.0.2",
             "info": {
-                "title": "Elasticsearch Basics",
-                "description": "This Swagger UI page runs throught the basic Elasticsearch API end points. It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe Swagger UI page runs through the basics of index management then runs through all the basic `CRUD` operations. Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter.\n\nFor instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [Swarmee Swagger-4-es Page](https://www.swarmee.net/swagger-4-es/).",
+                "title": "Elasticsearch Docs",
+                "description": "This Swagger UI page runs through the basic [Elasticsearch](https://www.elastic.co/) API end points (it also works for [Opensearch](https://opensearch.org/) end points) \n\nIt is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe page runs through the basics of index management and the key `CRUD` operations. Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter.\n\nFor instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [Swarmee Swagger-4-es Page](https://www.swarmee.net/swagger-4-es/).",
                 "version": "1.0"
             },
             "servers": [{
@@ -54,9 +54,7 @@
             "paths": {
                 "/_cluster/health": {
                     "get": {
-                        "tags": [
-                            "\ud83c\udf8a Cluster Basics"
-                        ],
+                        "tags": ["\ud83c\udf8a Cluster Basics"],
                         "summary": "Retrieve Cluster Health",
                         "description": "Retrieve Cluster Health \n\nIdeally your cluster is green (which means no unreplicated shards) \n\nYellow means you have some unreplicated shards - if you create an index it may by default have mulitple shards.",
                         "operationId": "retrieve_cluster_health__cluster_health_get",
@@ -100,9 +98,7 @@
                 },
                 "/_cat/indices": {
                     "get": {
-                        "tags": [
-                            "\u2728 Index Operations"
-                        ],
+                        "tags": ["\u2728 Index Operations"],
                         "summary": "List Indices",
                         "description": "`cat` stands for Compact and Aligned Text - there are many elasticserch endpoints under `_cat` \n\nThese endpoints are meant for humans to read as the text is neatly aligned in columns. \n\nHowever they have evolved to have a format parameter so you can get `json` back from them also.\n\nThis `cat` endpoint list indices and provides their state \n\nThe **v** parameter toggles the column headings on and off in the column view.  ",
                         "operationId": "list_indices__cat_indices_get",
@@ -170,9 +166,7 @@
                 },
                 "/{index}/": {
                     "get": {
-                        "tags": [
-                            "\u2728 Index Operations"
-                        ],
+                        "tags": ["\u2728 Index Operations"],
                         "summary": "View Index Details",
                         "description": "View the aliases, mappings and settings for an index.\n\n_**Aliases**_ are similar to table views from sql land - i.e. they don't hold data - they just point to one or more indexes. \n\n_**Mappings**_ defines the type of each field and how it is indexes \n\n_**Settings**_ defines the index level configuration.   ",
                         "operationId": "view_index_details__index___get",
@@ -182,6 +176,7 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }],
@@ -223,9 +218,7 @@
                         }]
                     },
                     "put": {
-                        "tags": [
-                            "\u2728 Index Operations"
-                        ],
+                        "tags": ["\u2728 Index Operations"],
                         "summary": "Create Index",
                         "description": "Create an empty index in elasticsearch with a predefined configuration. \n\nOver time you will probably want to look at index templates - however you need to understand the fundamentals of index settings. \n\nBelow are a number of index configurations. ",
                         "operationId": "create_index__index___put",
@@ -235,6 +228,7 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }],
@@ -279,7 +273,13 @@
                                                     "properties": {
                                                         "name": {
                                                             "type": "text",
-                                                            "analyzer": "custom_analyzer"
+                                                            "analyzer": "custom_analyzer",
+                                                            "fields": {
+                                                                "keyword": {
+                                                                    "type": "keyword",
+                                                                    "ignore_above": 256
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 },
@@ -288,11 +288,7 @@
                                                         "analyzer": {
                                                             "custom_analyzer": {
                                                                 "tokenizer": "standard",
-                                                                "filter": [
-                                                                    "lowercase",
-                                                                    "stopword_filter",
-                                                                    "snowball_filter"
-                                                                ]
+                                                                "filter": ["lowercase", "stopword_filter", "snowball_filter"]
                                                             }
                                                         },
                                                         "filter": {
@@ -301,11 +297,7 @@
                                                             },
                                                             "stopword_filter": {
                                                                 "type": "stop",
-                                                                "stopwords": [
-                                                                    "a",
-                                                                    "the",
-                                                                    "republic"
-                                                                ]
+                                                                "stopwords": ["a", "the", "republic"]
                                                             }
                                                         }
                                                     }
@@ -363,18 +355,19 @@
                         }]
                     },
                     "delete": {
-                        "tags": [
-                            "\u2728 Index Operations"
-                        ],
+                        "tags": ["\u2728 Index Operations"],
                         "summary": "Delete Index",
                         "description": "Delete an index (and all documents contained within the index)\n\nThese types of endpoints support asterisk (`*`) as a wild. \n\nThis is really helpful when you need to delete indices which have the date in the index name. E.g.; \n\n``` bash\ncurl -X 'DELETE' 'https://localhost/2020-01-*-applogs/' \n```\nBut be careful.",
                         "operationId": "delete_index__index___delete",
                         "parameters": [{
+                            "description": "Index to be deleted",
                             "required": true,
                             "schema": {
-                                "title": "Index",
-                                "type": "string"
+                                "title": "The index name",
+                                "type": "string",
+                                "description": "Index to be deleted"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }],
@@ -403,9 +396,7 @@
                 },
                 "/{index}/_settings": {
                     "put": {
-                        "tags": [
-                            "\u2728 Index Operations"
-                        ],
+                        "tags": ["\u2728 Index Operations"],
                         "summary": "Update Index Settings",
                         "description": "Update an existing indexes settings. \n\nFor example you might want to build an index with settings optimised for speed, however once its built you might want to optimise for redundancy (e.g. increasing the number of replicates), \n\n**Not** all index settings can be changed once an index is created.  ",
                         "operationId": "update_index_settings__index___settings_put",
@@ -415,6 +406,7 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }],
@@ -465,9 +457,7 @@
                 },
                 "/{index}/_update/{_id}": {
                     "post": {
-                        "tags": [
-                            "\ud83e\udd73 Update Documents"
-                        ],
+                        "tags": ["\ud83e\udd73 Update Documents"],
                         "summary": "Update Document",
                         "description": "Inserting a document with an existing document _id will replace the existing document - So\nif you need to replace a whole document with a existing document just use the create document \nwith `_id` end point.\nThere are two types of updates `doc` and `script`:\n\n- doc is used to add or update specific fields\n- script is used to perform more complex updates (e.g. adding an item to an existing list)",
                         "operationId": "update_document__index___update___id__post",
@@ -517,12 +507,7 @@
                                             "description": "Add a list to an existing document",
                                             "value": {
                                                 "doc": {
-                                                    "newList": [
-                                                        1,
-                                                        3,
-                                                        45,
-                                                        777
-                                                    ]
+                                                    "newList": [1, 3, 45, 777]
                                                 }
                                             }
                                         },
@@ -580,9 +565,7 @@
                 },
                 "/{index}/_update_by_query": {
                     "post": {
-                        "tags": [
-                            "\ud83e\udd73 Update Documents"
-                        ],
+                        "tags": ["\ud83e\udd73 Update Documents"],
                         "summary": "Update By Query",
                         "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
                         "operationId": "update_by_query__index___update_by_query_post",
@@ -693,9 +676,7 @@
                 },
                 "/{index}/_doc/{_id}": {
                     "get": {
-                        "tags": [
-                            "\ud83c\udf89 Retrieve Documents"
-                        ],
+                        "tags": ["\ud83c\udf89 Retrieve Documents"],
                         "summary": "Retrieve Document By Id",
                         "description": "This end point simply retrieves a document based on the provided `_id`. \n\nNote the structure of the document returned:\n- At the top level we have various meta data about the document (e.g. `index` and `version`). \n\n- The original document is nested in a field called `_source`. ",
                         "operationId": "retrieve_document_by_id__index___doc___id__get",
@@ -705,6 +686,7 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }, {
@@ -713,6 +695,7 @@
                                 "title": " Id",
                                 "type": "string"
                             },
+                            "example": "1",
                             "name": "_id",
                             "in": "path"
                         }],
@@ -753,9 +736,7 @@
                         }]
                     },
                     "post": {
-                        "tags": [
-                            "\ud83d\ude80 Create Documents"
-                        ],
+                        "tags": ["\ud83d\ude80 Create Documents"],
                         "summary": "Create Document With Id",
                         "description": "Store a document into elasticsearch while specifying an `_id` for the record.\n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mapping parameters applied. \n\nIf the index and `_id` already exist then the document will be replaced. \n\nPlease see how the sample response differs (i.e. the `result` and `_version` fields)",
                         "operationId": "create_document_with_id__index___doc___id__post",
@@ -765,6 +746,7 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }, {
@@ -773,6 +755,7 @@
                                 "title": " Id",
                                 "type": "string"
                             },
+                            "example": "123456",
                             "name": "_id",
                             "in": "path"
                         }],
@@ -842,9 +825,7 @@
                                                 "capital": "Luanda",
                                                 "region": "Africa",
                                                 "subregion": "Middle Africa",
-                                                "latlng": [-12.5,
-                                                    18.5
-                                                ],
+                                                "latlng": [-12.5, 18.5],
                                                 "area": 1246000,
                                                 "gdp": [{
                                                     "year": 2020,
@@ -911,9 +892,7 @@
                         }]
                     },
                     "delete": {
-                        "tags": [
-                            "\ud83e\udd84 Delete Documents"
-                        ],
+                        "tags": ["\ud83e\udd84 Delete Documents"],
                         "summary": "Delete Document",
                         "description": "Delete an individual document based on the document `_id`.",
                         "operationId": "delete_document__index___doc___id__delete",
@@ -970,11 +949,9 @@
                 },
                 "/{index}/_doc": {
                     "post": {
-                        "tags": [
-                            "\ud83d\ude80 Create Documents"
-                        ],
+                        "tags": ["\ud83d\ude80 Create Documents"],
                         "summary": "Create Document Without Id",
-                        "description": "Store a document into elasticsearch, the `_id` for the record will be \ngenerated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mappings. \n\nThe HTTP response code is 201 for this request. ",
+                        "description": "Store a document into elasticsearch, the `_id` for the record will be \ngenerated by elasticsearch. \n\nIf the index to store the document does not already exist it will be created \nwith the default settings and mappings. \n\nThe pipeline query string parameter identifies a series of `processesors` that should be applied to the document before indexing. For example appending in the index datetime to the source document. Pipelines are created using the `_ingest/pipeline` endpoints. \n\n\nThe HTTP response code is 201 for this request. ",
                         "operationId": "create_document_without_id__index___doc_post",
                         "parameters": [{
                             "required": true,
@@ -982,8 +959,17 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
+                        }, {
+                            "required": false,
+                            "schema": {
+                                "title": "Pipeline",
+                                "type": "string"
+                            },
+                            "name": "pipeline",
+                            "in": "query"
                         }],
                         "requestBody": {
                             "content": {
@@ -1051,9 +1037,7 @@
                                                 "capital": "Luanda",
                                                 "region": "Africa",
                                                 "subregion": "Middle Africa",
-                                                "latlng": [-12.5,
-                                                    18.5
-                                                ],
+                                                "latlng": [-12.5, 18.5],
                                                 "area": 1246000,
                                                 "gdp": [{
                                                     "year": 2020,
@@ -1105,9 +1089,7 @@
                 },
                 "/{index}/_search": {
                     "post": {
-                        "tags": [
-                            "\ud83c\udf89 Retrieve Documents"
-                        ],
+                        "tags": ["\ud83c\udf89 Retrieve Documents"],
                         "summary": "Retrieve Documents By Search",
                         "description": "This is the most feature rich endpoint in elasticsearch - coming from sql the searches that you can\nperform will **blown your mind**. \n\nWe will just cover the basics here now - but lots more to come on this. \nA number of example query types have been provided. \n\nThis end point can also been used to sample some documents when submitted without a request body \n(i.e. with no search parameters). By default only ten documents will be returned. \n\nThe sample response shows illustrates the structure that will be returned. \nAt the top level we have details about the search execution (e.g. `took`, `timed_out` and shard details)\nThen we have a `hits` key which has summary details on the search (e.g. `max_score` and `total` hits)\nas well as sub `hits` key which lists the search results in score order.  ",
                         "operationId": "retrieve_documents_by_search__index___search_post",
@@ -1117,6 +1099,7 @@
                                 "title": "Index",
                                 "type": "string"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }, {
@@ -1304,9 +1287,7 @@
                 },
                 "/{index}/_delete_by_query": {
                     "post": {
-                        "tags": [
-                            "\ud83e\udd84 Delete Documents"
-                        ],
+                        "tags": ["\ud83e\udd84 Delete Documents"],
                         "summary": "Delete By Query",
                         "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
                         "operationId": "delete_by_query__index___delete_by_query_post",
@@ -1420,9 +1401,7 @@
                 },
                 "/_analyze": {
                     "post": {
-                        "tags": [
-                            "\ud83d\udd25 Text Analysis"
-                        ],
+                        "tags": ["\ud83d\udd25 Text Analysis"],
                         "summary": "Text Analysis",
                         "description": "The *analyze* endpoint allows you test out how your data will be analyzed and indexed.\nThe default behaviour is for your search terms to be analyzed using the same analysis chain.\nE.g. if you split terms on dashes and lowercase the characters\nthe same processing will be applied at index time to the documents as well as at search time to\nthe searched terms. \n\n\nOut of the box elastic comes with 8 \"built-in\" analyzers, which are a pre configured combination of:\n- Character Filters, \n- Tokenizers, and\n- Token Filters  \n\nPopular analyzers include:\n- Standard - which tokenizes based on unicode text logic, removes punctuation and lowercases terms. \n- Keyword - which basically preforms no analysis, including no tokenization (e.g. a phase comes in and comes out a phase).\n- Simple - which tokenizes whenever it hits a character that is not a letter.\n- Stop - which removes stop words (based off the simple analyzer). \n\nIf the out of the box analyzers don't meet your requirements, you can create your own analysis chain (i.e. analyzer).\nWhich basically just involves stringing together the avaliable `Character Filters`, `Tokenizers` and `Token Filters`. \nExamples of each are provided below:\n<details><summary>Character Filters - preprocess characters before passed to tokenizer</summary>\nCharacter filters include: \n\n- **Mapping** - maps text (e.g. `:)` = good/happy). \n\n- **HTML Strip** - basically tries to remove HTML garbage from text before indexing. \n\n- **Pattern Replace** - firstly I've never had a need to use this character filter. It allows you to use regex to fiddle with the text. \n\n</p>\n</details>\n<details><summary>Tokenization - how the text is broken down into tokens</summary>\nAvaliable tokenizers include: \n\n- **Letter** (breaks on non leters) \n\n- **Standard** (grammer based tokenisation) - note however the apostrophe `s` is kept with the preceding word   \n\n- **Classic** (pretty good for english however `standard` is preferred now with most general language support) \n\n- **Ngram** (ngrams for all tokens) - default is min_gram 1 and max_gram 2 \n\n- **Edge_ngram** (ngrams from the edges) - default is min_gram 1 and max_gram 2  \n\n- **Keyword** (no tokenization) \n\n\n</p>\n</details>\n<details><summary>Token Filters - processing of tokens (add, modify, delete) from tokenizer</summary>\nAvaliable Token Filters include: \n\n- **Apostrophe** - removes apostrophe and text following the apostrophe (e.g. john's becomes john) \n\n- **Stopwords** - removes configured stopwords so they are not indexed. \n\n- **stemmer** - which supports a number of stemming algorithms. \n\n- **Snowball** - snowball stemming of terms. \n \n</p>\n</details>\n\n\n\nNote: including `\"explain\" : true` in the request payload will allow you to review the full analysis chain. ",
                         "operationId": "text_analysis__analyze_post",
@@ -1464,10 +1443,7 @@
                                             "value": {
                                                 "char_filter": [{
                                                     "type": "mapping",
-                                                    "mappings": [
-                                                        ":) => good",
-                                                        ":( => bad"
-                                                    ]
+                                                    "mappings": [":) => good", ":( => bad"]
                                                 }],
                                                 "tokenizer": "standard",
                                                 "text": "I feel :)"
@@ -1502,9 +1478,7 @@
                                             "description": "Grammer based tokenisation - note however the apostrophe `s` is kept with the preceding word in the example. This is the default configured tokenizer - really good value - you can get a long way with this tokenizerNote in the example we have also provided a lowercase filter to the analysis chain.",
                                             "value": {
                                                 "tokenizer": "standard",
-                                                "filter": [
-                                                    "lowercase"
-                                                ],
+                                                "filter": ["lowercase"],
                                                 "text": "#1 A Driving Instructor's rule."
                                             }
                                         },
@@ -1514,12 +1488,7 @@
                                             "value": {
                                                 "tokenizer": {
                                                     "type": "char_group",
-                                                    "tokenize_on_chars": [
-                                                        "whitespace",
-                                                        "-",
-                                                        "\n",
-                                                        "."
-                                                    ]
+                                                    "tokenize_on_chars": ["whitespace", "-", "\n", "."]
                                                 },
                                                 "text": "... it was delicious,today  ..."
                                             }
@@ -1543,17 +1512,10 @@
                                                     "type": "ngram",
                                                     "min_gram": 5,
                                                     "max_gram": 6,
-                                                    "token_chars": [
-                                                        "letter",
-                                                        "digit"
-                                                    ]
+                                                    "token_chars": ["letter", "digit"]
                                                 },
-                                                "filter": [
-                                                    "lowercase"
-                                                ],
-                                                "text": [
-                                                    "... it was delicious,Today  ..."
-                                                ]
+                                                "filter": ["lowercase"],
+                                                "text": ["... it was delicious,Today  ..."]
                                             }
                                         },
                                         "Edge_Ngram_Tokenizier": {
@@ -1564,10 +1526,7 @@
                                                     "type": "edge_ngram",
                                                     "min_gram": 5,
                                                     "max_gram": 12,
-                                                    "token_chars": [
-                                                        "letter",
-                                                        "digit"
-                                                    ]
+                                                    "token_chars": ["letter", "digit"]
                                                 },
                                                 "text": "... it was delicious,Today  ..."
                                             }
@@ -1579,13 +1538,8 @@
                                                 "tokenizer": {
                                                     "type": "keyword"
                                                 },
-                                                "filter": [
-                                                    "lowercase"
-                                                ],
-                                                "text": [
-                                                    "John Smith",
-                                                    "john smith"
-                                                ]
+                                                "filter": ["lowercase"],
+                                                "text": ["John Smith", "john smith"]
                                             }
                                         },
                                         "Simple_Pattern_Tokenizier": {
@@ -1596,13 +1550,8 @@
                                                     "type": "simple_pattern",
                                                     "pattern": "[0123456789]{3,7}"
                                                 },
-                                                "filter": [
-                                                    "lowercase"
-                                                ],
-                                                "text": [
-                                                    "Ventolin 110mg",
-                                                    "Becloforte-1000-mg"
-                                                ]
+                                                "filter": ["lowercase"],
+                                                "text": ["Ventolin 110mg", "Becloforte-1000-mg"]
                                             }
                                         },
                                         "Character_Group_Tokenizer": {
@@ -1611,9 +1560,7 @@
                                             "value": {
                                                 "tokenizer": {
                                                     "type": "char_group",
-                                                    "tokenize_on_chars": [
-                                                        ","
-                                                    ]
+                                                    "tokenize_on_chars": [","]
                                                 },
                                                 "text": "James,Brown,Rules"
                                             }
@@ -1626,10 +1573,7 @@
                                                 "filter": [{
                                                     "type": "apostrophe"
                                                 }],
-                                                "text": [
-                                                    "John's runners",
-                                                    "the company's accounts"
-                                                ]
+                                                "text": ["John's runners", "the company's accounts"]
                                             }
                                         },
                                         "Stopword_Filter": {
@@ -1692,10 +1636,7 @@
                                             "value": {
                                                 "char_filter": [{
                                                     "type": "mapping",
-                                                    "mappings": [
-                                                        ":) => good",
-                                                        ":( => bad"
-                                                    ]
+                                                    "mappings": [":) => good", ":( => bad"]
                                                 }],
                                                 "tokenizer": "standard",
                                                 "filter": [{
@@ -1705,9 +1646,7 @@
                                                     "language": "english"
                                                 }, {
                                                     "type": "stop",
-                                                    "stopwords": [
-                                                        "i'm"
-                                                    ]
+                                                    "stopwords": ["i'm"]
                                                 }],
                                                 "text": "I'm feeling :)"
                                             }
@@ -1814,9 +1753,7 @@
                 },
                 "/{index}/_analyze": {
                     "post": {
-                        "tags": [
-                            "\ud83d\udd25 Text Analysis"
-                        ],
+                        "tags": ["\ud83d\udd25 Text Analysis"],
                         "summary": "Text Analysis For Specific Index",
                         "description": "Analyze how text would be analyzed for a specific index. \n\nIncluding `\"explain\" : true` in the request will allow you to review the full analysis chain. \n ",
                         "operationId": "text_analysis_for_specific_index__index___analyze_post",
@@ -1914,6 +1851,1469 @@
                             "HTTPBasic": []
                         }]
                     }
+                },
+                "/_index_template/{indexTemplateName}": {
+                    "get": {
+                        "tags": ["\ud83d\udd06 Index Templates"],
+                        "summary": "Retrieve Index Template",
+                        "description": "Retrieve a previously saved index template - based on the \nspecified index template name",
+                        "operationId": "retrieve_index_template__index_template__indexTemplateName__get",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Indextemplatename",
+                                "type": "string"
+                            },
+                            "example": "country-index-template",
+                            "name": "indexTemplateName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "my-pipeline-id": {
+                                                        "description": "describe pipeline",
+                                                        "version": 123,
+                                                        "processors": [{
+                                                            "set": {
+                                                                "field": "foo",
+                                                                "value": "bar"
+                                                            }
+                                                        }]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    },
+                    "put": {
+                        "tags": ["\ud83d\udd06 Index Templates"],
+                        "summary": "Save Index Template",
+                        "description": "This endpoint is used to save an index template into the cluster.\nOnce a template has been saved into the cluster all indexes created after that match the index pattern will have this template applied. ",
+                        "operationId": "save_index_template__index_template__indexTemplateName__put",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Indextemplatename",
+                                "type": "string"
+                            },
+                            "example": "country-index-template",
+                            "name": "indexTemplateName",
+                            "in": "path"
+                        }],
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "simple_index_template_creation": {
+                                            "summary": "A simple index template configuration",
+                                            "description": "A **simple** index template configuration. In this example we set a few index settings and then proivde the mapping for one field.",
+                                            "value": {
+                                                "index_patterns": ["country"],
+                                                "template": {
+                                                    "settings": {
+                                                        "number_of_shards": 1,
+                                                        "number_of_replicas": 0,
+                                                        "codec": "best_compression"
+                                                    },
+                                                    "mappings": {
+                                                        "properties": {
+                                                            "countryCode": {
+                                                                "type": "keyword"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "complex_index_template_creation": {
+                                            "summary": "A index template with a 'text analysis' analyzer",
+                                            "description": "In this configuration we configure some text analysis of the name field, as well as provide some meta data around the template and allocate a priority to the application of the template",
+                                            "value": {
+                                                "index_patterns": ["country"],
+                                                "template": {
+                                                    "settings": {
+                                                        "number_of_shards": 1,
+                                                        "number_of_replicas": 0,
+                                                        "codec": "best_compression",
+                                                        "analysis": {
+                                                            "analyzer": {
+                                                                "custom_analyzer": {
+                                                                    "tokenizer": "standard",
+                                                                    "filter": ["lowercase", "stopword_filter", "snowball_filter"]
+                                                                }
+                                                            },
+                                                            "filter": {
+                                                                "snowball_filter": {
+                                                                    "type": "snowball"
+                                                                },
+                                                                "stopword_filter": {
+                                                                    "type": "stop",
+                                                                    "stopwords": ["a", "the", "republic"]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "mappings": {
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "text",
+                                                                "analyzer": "custom_analyzer",
+                                                                "fields": {
+                                                                    "keyword": {
+                                                                        "type": "keyword",
+                                                                        "ignore_above": 256
+                                                                    }
+                                                                }
+                                                            },
+                                                            "countryCode": {
+                                                                "type": "keyword"
+                                                            }
+                                                        }
+                                                    },
+                                                    "aliases": {
+                                                        "countries": {}
+                                                    }
+                                                },
+                                                "priority": 10,
+                                                "version": 3,
+                                                "_meta": {
+                                                    "description": "my complex template",
+                                                    "createdDate": "2020-01-01",
+                                                    "notes": "added priortiy as 10"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    },
+                    "delete": {
+                        "tags": ["\ud83d\udd06 Index Templates"],
+                        "summary": "Delete Index Template",
+                        "description": "Delete a previously saved index template - based on the index template name.       ",
+                        "operationId": "delete_index_template__index_template__indexTemplateName__delete",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Indextemplatename",
+                                "type": "string"
+                            },
+                            "example": "country-index-template",
+                            "name": "indexTemplateName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_index_template/": {
+                    "get": {
+                        "tags": ["\ud83d\udd06 Index Templates"],
+                        "summary": "Retrieve All Index Templates",
+                        "description": "Retrieve a list of all index templates.",
+                        "operationId": "retrieve_all_index_templates__index_template__get",
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "index_templates": [{
+                                                        "name": "country-index-template",
+                                                        "index_template": {
+                                                            "index_patterns": ["country"],
+                                                            "template": {
+                                                                "settings": {
+                                                                    "index": {
+                                                                        "number_of_shards": "1"
+                                                                    }
+                                                                },
+                                                                "mappings": {
+                                                                    "properties": {
+                                                                        "host_name": {
+                                                                            "type": "keyword"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "version": 3,
+                                                            "_meta": {
+                                                                "description": "my first index template"
+                                                            }
+                                                        }
+                                                    }, {
+                                                        "name": "transaction-report",
+                                                        "index_template": {
+                                                            "index_patterns": ["transaction-report"],
+                                                            "template": {
+                                                                "settings": {
+                                                                    "index": {
+                                                                        "max_result_window": "20000",
+                                                                        "codec": "best_compression",
+                                                                        "refresh_interval": "30s",
+                                                                        "analysis": {
+                                                                            "analyzer": {
+                                                                                "account_number_analyzer": {
+                                                                                    "char_filter": ["account_number_filter"],
+                                                                                    "tokenizer": "standard"
+                                                                                }
+                                                                            },
+                                                                            "char_filter": {
+                                                                                "account_number_filter": {
+                                                                                    "pattern": "[^0-9]",
+                                                                                    "type": "pattern_replace",
+                                                                                    "replacement": ""
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "number_of_shards": "3",
+                                                                        "number_of_replicas": "0"
+                                                                    }
+                                                                },
+                                                                "mappings": {
+                                                                    "properties": {
+                                                                        "all": {
+                                                                            "type": "text"
+                                                                        },
+                                                                        "role": {
+                                                                            "type": "nested",
+                                                                            "properties": {
+                                                                                "roleType": {
+                                                                                    "copy_to": "all",
+                                                                                    "type": "text",
+                                                                                    "fields": {
+                                                                                        "keyword": {
+                                                                                            "ignore_above": 256,
+                                                                                            "type": "keyword"
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "party": {
+                                                                                    "type": "nested",
+                                                                                    "properties": {
+                                                                                        "address": {
+                                                                                            "type": "nested",
+                                                                                            "properties": {
+                                                                                                "country": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "streetAddress": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "postcode": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "suburb": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "state": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "geolocation": {
+                                                                                                    "type": "geo_point"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "identification": {
+                                                                                            "type": "nested",
+                                                                                            "properties": {
+                                                                                                "identifier": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "identificationSubType": {
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "identificationType": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "gender": {
+                                                                                            "copy_to": "all",
+                                                                                            "type": "text",
+                                                                                            "fields": {
+                                                                                                "keyword": {
+                                                                                                    "ignore_above": 256,
+                                                                                                    "type": "keyword"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "jobTitle": {
+                                                                                            "copy_to": "all",
+                                                                                            "type": "text",
+                                                                                            "fields": {
+                                                                                                "keyword": {
+                                                                                                    "ignore_above": 256,
+                                                                                                    "type": "keyword"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "name": {
+                                                                                            "type": "nested",
+                                                                                            "properties": {
+                                                                                                "fullName": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "partyId": {
+                                                                                            "copy_to": "all",
+                                                                                            "type": "text",
+                                                                                            "fields": {
+                                                                                                "keyword": {
+                                                                                                    "ignore_above": 256,
+                                                                                                    "type": "keyword"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "partyType": {
+                                                                                            "copy_to": "all",
+                                                                                            "type": "text",
+                                                                                            "fields": {
+                                                                                                "keyword": {
+                                                                                                    "ignore_above": 256,
+                                                                                                    "type": "keyword"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "account": {
+                                                                                            "type": "nested",
+                                                                                            "properties": {
+                                                                                                "branchId": {
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "country": {
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "number": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "analyzer": "account_number_analyzer",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "streetAddress": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "postcode": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "branchName": {
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "suburb": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "state": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "network": {
+                                                                                                    "copy_to": "all",
+                                                                                                    "type": "text",
+                                                                                                    "fields": {
+                                                                                                        "keyword": {
+                                                                                                            "ignore_above": 256,
+                                                                                                            "type": "keyword"
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "report": {
+                                                                            "properties": {
+                                                                                "reportType": {
+                                                                                    "type": "text",
+                                                                                    "fields": {
+                                                                                        "keyword": {
+                                                                                            "ignore_above": 256,
+                                                                                            "type": "keyword"
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "submissionId": {
+                                                                                    "type": "keyword"
+                                                                                },
+                                                                                "reportNumber": {
+                                                                                    "type": "long"
+                                                                                },
+                                                                                "reporter": {
+                                                                                    "type": "text",
+                                                                                    "fields": {
+                                                                                        "keyword": {
+                                                                                            "ignore_above": 256,
+                                                                                            "type": "keyword"
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "reporterId": {
+                                                                                    "type": "integer"
+                                                                                },
+                                                                                "processedDatetime": {
+                                                                                    "format": "yyyy-MM-dd'T'HH:mm:ssZ||yyyy-MM-dd||strict_date_optional_time",
+                                                                                    "type": "date"
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "transaction": {
+                                                                            "properties": {
+                                                                                "amount": {
+                                                                                    "type": "double"
+                                                                                },
+                                                                                "transactionDatetime": {
+                                                                                    "format": "yyyy-MM-dd'T'HH:mm:ssZ||yyyy-MM-dd||strict_date_optional_time",
+                                                                                    "type": "date"
+                                                                                },
+                                                                                "direction": {
+                                                                                    "type": "text",
+                                                                                    "fields": {
+                                                                                        "keyword": {
+                                                                                            "ignore_above": 256,
+                                                                                            "type": "keyword"
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_ingest/pipeline/{ingestPipelineName}": {
+                    "get": {
+                        "tags": ["\ud83c\udf83 Ingest Pipelines"],
+                        "summary": "Retrieve Ingest Pipeline",
+                        "description": "Retrieve a previously saved ingest pipeline - based on the \nspecified ingest pipeline name",
+                        "operationId": "retrieve_ingest_pipeline__ingest_pipeline__ingestPipelineName__get",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Ingestpipelinename",
+                                "type": "string"
+                            },
+                            "example": "test-pipeline",
+                            "name": "ingestPipelineName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    },
+                    "put": {
+                        "tags": ["\ud83c\udf83 Ingest Pipelines"],
+                        "summary": "Save Ingest Pipeline",
+                        "description": "This endpoint is used to save an ingest pipelines into the cluster state. ",
+                        "operationId": "save_ingest_pipeline__ingest_pipeline__ingestPipelineName__put",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Ingestpipelinename",
+                                "type": "string"
+                            },
+                            "example": "test-pipeline",
+                            "name": "ingestPipelineName",
+                            "in": "path"
+                        }],
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "simple_pipeline": {
+                                            "summary": "A simple pipeline configuration",
+                                            "description": "Just adds a field to all documents.",
+                                            "value": {
+                                                "description": "Add field example",
+                                                "processors": [{
+                                                    "set": {
+                                                        "description": "Add field processor",
+                                                        "field": "important-field",
+                                                        "value": "added-field"
+                                                    }
+                                                }]
+                                            }
+                                        },
+                                        "add_timestamp_pipeline": {
+                                            "summary": "A timestamp pipeline configuration",
+                                            "description": "Adds timestamp to documents.",
+                                            "value": {
+                                                "description": "Add timestamp to documents",
+                                                "processors": [{
+                                                    "set": {
+                                                        "field": "@timestamp",
+                                                        "value": "{{_ingest.timestamp}}"
+                                                    }
+                                                }]
+                                            }
+                                        },
+                                        "allocate_document_to_datetime_index_pipeline": {
+                                            "summary": "Allocate the document to a datetime index",
+                                            "description": "Adds timestamp to documents.",
+                                            "value": {
+                                                "description": "Add timestamp to documents",
+                                                "processors": [{
+                                                    "set": {
+                                                        "field": "@timestamp",
+                                                        "value": "{{_ingest.timestamp}}"
+                                                    }
+                                                }, {
+                                                    "date_index_name": {
+                                                        "field": "timestamp",
+                                                        "index_name_prefix": "country-",
+                                                        "date_formats": ["strict_date_optional_time_nanos"],
+                                                        "date_rounding": "M",
+                                                        "timezone": "Australia/Sydney"
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    },
+                    "delete": {
+                        "tags": ["\ud83c\udf83 Ingest Pipelines"],
+                        "summary": "Delete Ingest Pipeline",
+                        "description": "Delete a previously saved ingest pipeline - based on the ingest pipeline name.       ",
+                        "operationId": "delete_ingest_pipeline__ingest_pipeline__ingestPipelineName__delete",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Ingestpipelinename",
+                                "type": "string"
+                            },
+                            "example": "test-pipeline",
+                            "name": "ingestPipelineName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_ingest/pipeline/{ingestPipelineName}/_simulate": {
+                    "post": {
+                        "tags": ["\ud83c\udf83 Ingest Pipelines"],
+                        "summary": "Simulate Ingest Pipeline",
+                        "description": "Process a series of documents against a specified ingest pipeline. ",
+                        "operationId": "simulate_ingest_pipeline__ingest_pipeline__ingestPipelineName___simulate_post",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Ingestpipelinename",
+                                "type": "string"
+                            },
+                            "example": "test-pipeline",
+                            "name": "ingestPipelineName",
+                            "in": "path"
+                        }],
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "simple_index_creation": {
+                                            "summary": "A simple index setting configuration",
+                                            "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                                            "value": {
+                                                "docs": [{
+                                                    "_index": "index",
+                                                    "_id": "id",
+                                                    "_source": {
+                                                        "country": "Australia"
+                                                    }
+                                                }, {
+                                                    "_index": "index",
+                                                    "_id": "id",
+                                                    "_source": {
+                                                        "country": "New Zealand"
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "template_output": {
+                                                "query": {
+                                                    "match": {
+                                                        "name": "France"
+                                                    }
+                                                },
+                                                "from": "20",
+                                                "size": "10"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_aliases": {
+                    "post": {
+                        "tags": ["\ud83d\udc9c Alias Operations"],
+                        "summary": "Management Of Index Aliases",
+                        "description": "Create, update and delete index aliases",
+                        "operationId": "management_of_index_aliases__aliases_post",
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "create_alias": {
+                                            "summary": "A simple alias creation request",
+                                            "description": "A **simple** alias creation request.",
+                                            "value": {
+                                                "actions": [{
+                                                    "add": {
+                                                        "index": "country-2021-*",
+                                                        "alias": "country"
+                                                    }
+                                                }]
+                                            }
+                                        },
+                                        "remove_alias": {
+                                            "summary": "A index alias removal request",
+                                            "description": "A **simple** alias removal request.",
+                                            "value": {
+                                                "actions": [{
+                                                    "remove": {
+                                                        "index": "country-2021-*",
+                                                        "alias": "country"
+                                                    }
+                                                }]
+                                            }
+                                        },
+                                        "replace_alias": {
+                                            "summary": "Replace a index alias request",
+                                            "description": "The aliases API allows you can perform multiple actions in a **single atomic** operation.",
+                                            "value": {
+                                                "actions": [{
+                                                    "remove": {
+                                                        "index": "country-2021-*",
+                                                        "alias": "country"
+                                                    }
+                                                }, {
+                                                    "add": {
+                                                        "index": "country-2022-*",
+                                                        "alias": "country"
+                                                    }
+                                                }]
+                                            }
+                                        },
+                                        "filter_alias": {
+                                            "summary": "Create a filter alias request",
+                                            "description": "Create an filtered alias of an index.",
+                                            "value": {
+                                                "actions": [{
+                                                    "add": {
+                                                        "index": "country-2021-*",
+                                                        "alias": "country",
+                                                        "filter": {
+                                                            "bool": {
+                                                                "filter": [{
+                                                                    "range": {
+                                                                        "@timestamp": {
+                                                                            "gte": "now-1d/d"
+                                                                        }
+                                                                    }
+                                                                }]
+                                                            }
+                                                        }
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response(Success)": {
+                                                "summary": "JSON Response(Success)",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            },
+                                            "JSON Response(Failure)": {
+                                                "summary": "JSON Response(Failure)",
+                                                "value": {
+                                                    "error": {
+                                                        "root_cause": [{
+                                                            "type": "index_not_found_exception",
+                                                            "reason": "no such index [party]",
+                                                            "index": "party",
+                                                            "resource.id": "party",
+                                                            "resource.type": "index_or_alias",
+                                                            "index_uuid": "_na_"
+                                                        }],
+                                                        "type": "index_not_found_exception",
+                                                        "reason": "no such index [party]",
+                                                        "index": "party",
+                                                        "resource.id": "party",
+                                                        "resource.type": "index_or_alias",
+                                                        "index_uuid": "_na_"
+                                                    },
+                                                    "status": 404
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_alias": {
+                    "get": {
+                        "tags": ["\ud83d\udc9c Alias Operations"],
+                        "summary": "Retrieve All Index Aliases",
+                        "description": "Retrieve all index aliases",
+                        "operationId": "retrieve_all_index_aliases__alias_get",
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response(Created)": {
+                                                "summary": "JSON Response(Created)",
+                                                "value": {
+                                                    "_index": "country",
+                                                    "_type": "_doc",
+                                                    "_id": "1",
+                                                    "_version": 1,
+                                                    "result": "created",
+                                                    "_shards": {
+                                                        "total": 1,
+                                                        "successful": 1,
+                                                        "failed": 0
+                                                    },
+                                                    "_seq_no": 0,
+                                                    "_primary_term": 1
+                                                }
+                                            },
+                                            "JSON Response(Updated)": {
+                                                "summary": "JSON Response(Updated)",
+                                                "value": {
+                                                    "_index": "country",
+                                                    "_type": "_doc",
+                                                    "_id": "1",
+                                                    "_version": 2,
+                                                    "result": "updated",
+                                                    "_shards": {
+                                                        "total": 1,
+                                                        "successful": 1,
+                                                        "failed": 0
+                                                    },
+                                                    "_seq_no": 5,
+                                                    "_primary_term": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_alias/{aliasName}": {
+                    "get": {
+                        "tags": ["\ud83d\udc9c Alias Operations"],
+                        "summary": "Retrieve A Specific Alias",
+                        "description": "Retrieve a specific index alias by name",
+                        "operationId": "retrieve_a_specific_alias__alias__aliasName__get",
+                        "parameters": [{
+                            "description": "Index alias name",
+                            "required": true,
+                            "schema": {
+                                "title": "Aliasname",
+                                "type": "string",
+                                "description": "Index alias name"
+                            },
+                            "name": "aliasName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "country-2021": {
+                                                        "aliases": {
+                                                            "country": {
+                                                                "filter": {
+                                                                    "bool": {
+                                                                        "filter": [{
+                                                                            "range": {
+                                                                                "@timestamp": {
+                                                                                    "gte": "now-1d/d"
+                                                                                }
+                                                                            }
+                                                                        }]
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_scripts/{searchTemplateName}": {
+                    "get": {
+                        "tags": ["\ud83d\udc88 Search Templates"],
+                        "summary": "Retrieve Search Template",
+                        "description": "Retrieve a previously saved search template - based on the \nsearch template name",
+                        "operationId": "retrieve_search_template__scripts__searchTemplateName__get",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Searchtemplatename",
+                                "type": "string"
+                            },
+                            "example": "country-search-template",
+                            "name": "searchTemplateName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "_id": "country-search-template",
+                                                    "found": true,
+                                                    "script": {
+                                                        "lang": "mustache",
+                                                        "source": "\n    {\"query\":{\"match\":{\"name\":\"{{searchTerms}}\"}},\n    \"from\":{{from}}{{^from}}0{{/from}},\n    \"size\":{{size}}{{^size}}10{{/size}}}\n    ",
+                                                        "options": {
+                                                            "content_type": "application/json; charset=UTF-8"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    },
+                    "put": {
+                        "tags": ["\ud83d\udc88 Search Templates"],
+                        "summary": "Save Search Template",
+                        "description": "This endpoint is used to save a search template into the cluster. Templates are written in the [Mustache](https://mustache.github.io/) templating language. \nAll saved scripts can also be accessed through the `_cluster/state` endpoint.\nOnce a template has been saved into the cluster it can be used to perform queries. ",
+                        "operationId": "save_search_template__scripts__searchTemplateName__put",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Searchtemplatename",
+                                "type": "string"
+                            },
+                            "example": "country-search-template",
+                            "name": "searchTemplateName",
+                            "in": "path"
+                        }],
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "simple_index_creation": {
+                                            "summary": "A simple Search Template",
+                                            "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                                            "value": {
+                                                "script": {
+                                                    "lang": "mustache",
+                                                    "source": {
+                                                        "query": {
+                                                            "match": {
+                                                                "name": "{{name}}"
+                                                            }
+                                                        },
+                                                        "from": "{{from}}{{^from}}0{{/from}}",
+                                                        "size": "{{size}}{{^size}}10{{/size}}"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    },
+                    "delete": {
+                        "tags": ["\ud83d\udc88 Search Templates"],
+                        "summary": "Delete Search Template",
+                        "description": "Delete a previously saved search template - based on the search template name.",
+                        "operationId": "delete_search_template__scripts__searchTemplateName__delete",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Searchtemplatename",
+                                "type": "string"
+                            },
+                            "example": "country-search-template",
+                            "name": "searchTemplateName",
+                            "in": "path"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "acknowledged": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/_render/template": {
+                    "post": {
+                        "tags": ["\ud83d\udc88 Search Templates"],
+                        "summary": "Render Search Template",
+                        "description": "This end point can be used in two ways:\n- To render a query based on a previously saved search template, \n\n- to render a query based on a supplied query template. ",
+                        "operationId": "render_search_template__render_template_post",
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "render_supplied_template_basic": {
+                                            "summary": "Render simple supplied template",
+                                            "description": "A search template with two input parameters size and country name. The size parameter has a default value of 10.",
+                                            "value": {
+                                                "source": {
+                                                    "size": "{{size}}{{^size}}10{{/size}}",
+                                                    "query": {
+                                                        "match": {
+                                                            "name": "{{countryName}}"
+                                                        }
+                                                    }
+                                                },
+                                                "params": {
+                                                    "countryName": "Afghanistan",
+                                                    "size": 4
+                                                }
+                                            }
+                                        },
+                                        "render_supplied_template_multiple_search_types": {
+                                            "summary": "Render supplied template into multiple search types",
+                                            "description": "A search template with two input parameters size and country name. The size parameter has a default value of 10.",
+                                            "value": {
+                                                "source": {
+                                                    "query": {
+                                                        "bool": {
+                                                            "should": [{
+                                                                "match": {
+                                                                    "name.keyword": {
+                                                                        "query": "{{searchTerm}}",
+                                                                        "boost": 5
+                                                                    }
+                                                                }
+                                                            }, {
+                                                                "match_phrase": {
+                                                                    "name": {
+                                                                        "query": "{{searchTerm}}",
+                                                                        "slop": 1,
+                                                                        "boost": 3
+                                                                    }
+                                                                }
+                                                            }, {
+                                                                "match": {
+                                                                    "name": {
+                                                                        "query": "{{searchTerm}}",
+                                                                        "boost": 3
+                                                                    }
+                                                                }
+                                                            }]
+                                                        }
+                                                    }
+                                                },
+                                                "params": {
+                                                    "searchTerm": "Republic of Afghanistan"
+                                                }
+                                            }
+                                        },
+                                        "render_saved_template": {
+                                            "summary": "Render saved template",
+                                            "description": "Render a saved template.",
+                                            "value": {
+                                                "id": "country-search-template",
+                                                "params": {
+                                                    "name": "Afghanistan",
+                                                    "size": 5
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "template_output": {
+                                                "query": {
+                                                    "match": {
+                                                        "name": "France"
+                                                    }
+                                                },
+                                                "from": "20",
+                                                "size": "10"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
+                },
+                "/{index}/_search/template": {
+                    "post": {
+                        "tags": ["\ud83d\udc88 Search Templates"],
+                        "summary": "Run Search Template",
+                        "description": "Run a templated search, basically apply the parameters from the \nrequest to populate the search template and execute the query on \nthe index within the URL. ",
+                        "operationId": "run_search_template__index___search_template_post",
+                        "parameters": [{
+                            "required": true,
+                            "schema": {
+                                "title": "Index",
+                                "type": "string"
+                            },
+                            "example": "country",
+                            "name": "index",
+                            "in": "path"
+                        }],
+                        "requestBody": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "title": "Request",
+                                        "type": "object"
+                                    },
+                                    "examples": {
+                                        "simple_index_creation": {
+                                            "summary": "A simple Search Template",
+                                            "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                                            "value": {
+                                                "id": "country-search-template",
+                                                "params": {
+                                                    "name": "Afghanistan",
+                                                    "size": 5
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": true
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "Success",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {},
+                                        "examples": {
+                                            "JSON Response": {
+                                                "summary": "JSON Response",
+                                                "value": {
+                                                    "took": 2,
+                                                    "timed_out": false,
+                                                    "_shards": {
+                                                        "total": 1,
+                                                        "successful": 1,
+                                                        "skipped": 0,
+                                                        "failed": 0
+                                                    },
+                                                    "hits": {
+                                                        "total": {
+                                                            "value": 1,
+                                                            "relation": "eq"
+                                                        },
+                                                        "max_score": 0.2876821,
+                                                        "hits": [{
+                                                            "_index": "country",
+                                                            "_type": "_doc",
+                                                            "_id": "123456",
+                                                            "_score": 0.2876821,
+                                                            "_source": {
+                                                                "name": "Afghanistan",
+                                                                "countryCode": "AF",
+                                                                "capital": "Kabul",
+                                                                "region": "Asia",
+                                                                "subregion": "Southern Asia",
+                                                                "area": 652230
+                                                            }
+                                                        }]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "security": [{
+                            "HTTPBasic": []
+                        }]
+                    }
                 }
             },
             "components": {
@@ -1933,11 +3333,7 @@
                     },
                     "ValidationError": {
                         "title": "ValidationError",
-                        "required": [
-                            "loc",
-                            "msg",
-                            "type"
-                        ],
+                        "required": ["loc", "msg", "type"],
                         "type": "object",
                         "properties": {
                             "loc": {
@@ -2109,10 +3505,7 @@
                     },
                     "format_types": {
                         "title": "format_types",
-                        "enum": [
-                            "json",
-                            "column"
-                        ],
+                        "enum": ["json", "column"],
                         "type": "string",
                         "description": "An enumeration."
                     },
