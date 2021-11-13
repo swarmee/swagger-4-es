@@ -10,6 +10,8 @@ services:
       - discovery.seed_hosts=opensearch
       - cluster.initial_master_nodes=opensearch
       - plugins.security.ssl.http.enabled=false
+      - network.bind_host=0.0.0.0
+      - network.publish_host=0.0.0.0
       - plugins.security.disabled=true
       - http.cors.enabled=true
       - http.cors.allow-credentials=true
@@ -40,7 +42,7 @@ services:
     depends_on: 
       - opensearch
     volumes:
-      - ./nginx/www-root:/www-root/
+      - ./docs:/www-root/
     depends_on:
       - opensearch
 
