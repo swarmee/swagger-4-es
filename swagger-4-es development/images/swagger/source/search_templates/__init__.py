@@ -1,0 +1,1 @@
+from .search_templates import api as search_templates

@@ -1,0 +1,76 @@
+version: '3.8'
+services:
+  opensearch:
+    build: ./images/opensearch
+    container_name: opensearch
+    restart: always
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536 
+        hard: 65536
+    ports:
+      - 9200:9200
+    networks:
+      - opensearch
+
+  nginx:
+    restart: always
+    build: ./images/nginx
+    ports:
+      - 443:443      
+      - 80:80    
+    networks:
+      - opensearch
+    depends_on: 
+      - opensearch
+    volumes:
+      - ./images/nginx/www-root:/www-root/
+    depends_on:
+      - opensearch
+      - swagger
+
+  dashboards:
+    build: ./images/dashboards
+    container_name: dashboards
+    ports:
+      - 5601:5601
+    networks:
+      - opensearch
+
+  swagger:
+    restart: always
+    environment: 
+      PORT: 8080
+      MAX_WORKERS: "2"
+      WEB_CONCURRENCY: "3"
+      TIMEOUT: "180"
+    container_name: swagger
+    build: ./images/swagger
+    command: uvicorn main:app --host='0.0.0.0' --port=8080 --reload 
+    ports:
+      - 8080:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "1"
+    networks:
+      - opensearch
+    volumes:
+      - ./images/swagger/source:/app/
+
+  setup-es:
+    build: ./images/setup-es
+    networks:
+      - opensearch
+    depends_on:
+      - opensearch
+
+volumes:
+  opensearch:
+
+networks:
+  opensearch:

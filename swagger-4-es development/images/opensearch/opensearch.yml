@@ -1,0 +1,73 @@
+#action.auto_create_index: true
+#compatibility.override_main_response_version: true
+#network.host: 0.0.0.0
+# http.cors.enabled: true
+# http.cors.allow-credentials: true
+# http.cors.allow-origin: "*"
+# http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"
+# http.cors.allow-headers: "X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept"
+#discovery.type: "single-node"
+cluster.name: swarmee
+node.name: swarmee-01
+network.bind_host: 0.0.0.0
+network.publish_host: 0.0.0.0
+bootstrap.memory_lock: true 
+cluster.initial_master_nodes: swarmee-01
+#plugins.security.ssl.http.enabled: true
+#plugins.security.disabled: true
+http.cors.enabled: true
+http.cors.allow-credentials: true
+http.cors.allow-origin: "*"
+http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"
+http.cors.allow-headers: "X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept"
+
+
+
+#discovery.seed_hosts: opensearch
+#cluster.initial_master_nodes: opensearch
+# plugins.security.disabled: true
+# #plugins.security.ssl.transport.enabled_protocols: false
+# bootstrap.memory_lock: true 
+
+
+# plugins.security.ssl.http.enabled: true
+# plugins.security.allow_unsafe_democertificates: true
+# plugins.security.allow_default_init_securityindex: true
+# plugins.security.ssl.transport.enforce_hostname_verification: false
+
+# plugins.security.ssl.http.pemtrustedcas_filepath: certificates/ca/ca.pem
+# plugins.security.ssl.transport.pemtrustedcas_filepath: certificates/ca/ca.pem
+# plugins.security.ssl.transport.pemkey_filepath: certificates/opensearch/opensearch.key # relative path
+# plugins.security.ssl.transport.pemcert_filepath: certificates/opensearch/opensearch.pem
+# plugins.security.ssl.http.pemkey_filepath: certificates/opensearch/opensearch.key
+# plugins.security.ssl.http.pemcert_filepath: certificates/opensearch/opensearch.pem
+
+
+
+# plugins.security.authcz.admin_dn:
+#   - 'CN=ADMIN,O=EXAMPLE,L=PARIS,ST=IDF,C=FR'
+# plugins.security.nodes_dn:
+#   - 'CN=opensearch,O=EXAMPLE,L=PARIS,ST=IDF,C=FR'
+
+# plugins.security.audit.type: internal_opensearch
+# plugins.security.enable_snapshot_restore_privilege: true
+# plugins.security.check_snapshot_restore_write_privileges: true
+# plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
+# plugins.security.system_indices.enabled: true
+# plugins.security.system_indices.indices: [".opendistro-alerting-config", ".opendistro-alerting-alert*", ".opendistro-anomaly-results*", ".opendistro-anomaly-detector*", ".opendistro-anomaly-checkpoints", ".opendistro-anomaly-detection-state", ".opendistro-reports-*", ".opendistro-notifications-*", ".opendistro-notebooks", ".opendistro-asynchronous-search-response*", ".replication-metadata-store"]
+# WARNING: revise all the lines below before you go into production
+# plugins.security.ssl.transport.pemcert_filepath: esnode.pem
+# plugins.security.ssl.transport.pemkey_filepath: esnode-key.pem
+# plugins.security.ssl.transport.pemtrustedcas_filepath: root-ca.pem
+# plugins.security.ssl.transport.enforce_hostname_verification: false
+# plugins.security.ssl.http.enabled: true
+# plugins.security.ssl.http.pemcert_filepath: esnode.pem
+# plugins.security.ssl.http.pemkey_filepath: esnode-key.pem
+# plugins.security.ssl.http.pemtrustedcas_filepath: root-ca.pem
+# plugins.security.allow_unsafe_democertificates: true
+# plugins.security.allow_default_init_securityindex: true
+# plugins.security.authcz.admin_dn:
+#   - CN=kirk,OU=client,O=client,L=test, C=de
+
+
+#docker-compose exec opensearch bash -c "chmod +x plugins/opensearch-security/tools/securityadmin.sh && bash plugins/opensearch-security/tools/securityadmin.sh -cd plugins/opensearch-security/securityconfig -icl -nhnv -cacert config/root-ca.pem -cert config/admin.pem -key config/admin-key.pem -h localhost"
