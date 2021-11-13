@@ -2,9 +2,9 @@
 
 There are two ways you can use the Swagger UI page:
 
-1. From this website, by [clicking here](https://www.swarmee.net/swagger-4-es/swagger.html){:target="_blank"}. This will allow you to connect to a cloud based elasticsearch cluster (that is enabled for CORS). This setup option is by far the easiest for beginners, there is no need to setup any software on your PC. After clicking this link you will be asked to provide the URL of your elasticsearch cluster - you can follow the instructions [here](https://www.swarmee.net/swagger-4-es/elasticsearch-cloud-instance-setup/) for setting up an elasticsearch cloud instance. 
+1. From this website, by [clicking here](https://www.swarmee.net/swagger-4-es/swagger.html). This will allow you to connect to a cloud based elasticsearch cluster (that is enabled for CORS). This setup option is by far the easiest for beginners, there is no need to setup any software on your PC. After clicking this link you will be asked to provide the URL of your elasticsearch cluster - you can follow the instructions [here](https://www.swarmee.net/swagger-4-es/elasticsearch-cloud-instance-setup/) for setting up an elasticsearch cloud instance. 
 
-2. Cloning the [swagger-4-es](https://github.com/swarmee/swagger-4-es){:target="_blank"} repository, and running an opensearch (elasticsearch compatible) and nginx container locally, this option requires you to have docker and docker-compose setup on your PC , instructions on this can be found below. 
+2. Cloning the [swagger-4-es](https://github.com/swarmee/swagger-4-es) repository, and running an opensearch (elasticsearch compatible) and nginx container locally, this option requires you to have docker and docker-compose setup on your PC , instructions on this can be found below. 
 
 <details><summary>Local Cluster Setup Steps</summary>      
 
