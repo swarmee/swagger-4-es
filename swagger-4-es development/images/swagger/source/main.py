@@ -57,7 +57,7 @@ app = FastAPI(
      "Sample payloads and responses have been provided for each endpoint to assist in the learning processing. "
      "Every CRUD end point requires that you specify an index name as a path parameter.\n\n"
      "For instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the "
-     "[Swarmee Swagger-4-es Page](https://www.swarmee.net/swagger-4-es/)."
+     "[Swarmee Swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/)."
      ),
     long_description=(),
     long_description_content_type="text/markdown",

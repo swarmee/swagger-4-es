@@ -25,7 +25,7 @@ The following software and configuration is required on your computer to boot up
 docker-compose up
 ```
 
-Then open [https://localhost/swagger.html](https://localhost/swagger.html) to see the Swagger UI page.
+Then open [https://localhost/index.html](https://index/swagger.html) to see the Swagger UI page.
 
 **Noting**:
 
@@ -33,9 +33,6 @@ Then open [https://localhost/swagger.html](https://localhost/swagger.html) to se
 - The Opensearch cluster will take a little while to boot up - at least 15 seconds (you should see the messages scrolling through on your terminal as it starts up).
 - The container starts a nginx reverse proxy to host the Swagger UI page, it generates a self signed certificate so you will need to accept the warning message in your browser. I.e. it is expected to see a `Warning: Potential Security Risk Ahead` message when you open the Swagger UI link (Click Proceed).
 - No authentication is required for the local cluster. 
-
-
-Then open [https://localhost/swagger.html](https://localhost/swagger.html) to see the Swagger UI page.
 
 The cluster is also avaliable directly at [http://localhost:9200](http://localhost:9200)
 
