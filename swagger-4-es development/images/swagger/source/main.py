@@ -41,7 +41,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 security = HTTPBasic()
 
 app = FastAPI(
-    title='Elasticsearch Docs',
+    title='Elasticsearch/Opensearch Docs',
        root_path="/swagger",
        docs_url="/",
     servers=[{
