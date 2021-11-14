@@ -87,4 +87,4 @@ Why would you want to setup your own Swagger Page to Elasticsearch:
 
 ### Screenshot
 
-[![Swagger UI Screenshot](./Swagger-UI-Screenshot.png)](./Swagger-UI-Screenshot.png)
+[![Swagger UI Screenshot](./docs/Swagger-UI-Screenshot.png)](./docs/Swagger-UI-Screenshot.png)
