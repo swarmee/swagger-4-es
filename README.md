@@ -26,7 +26,7 @@ The following software and configuration is required on your computer to boot up
 docker-compose up
 ```
 
-Then open [https://localhost/index.html](https://index/swagger.html) to see the Swagger UI page.
+Then open [https://localhost/index.html](https://localhost/index.html) to see the Swagger UI page.
 
 **Noting**:
 
