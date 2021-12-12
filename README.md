@@ -3,13 +3,13 @@
 `swagger-4-es` provides a Swagger UI page for the key elasticsearch (and Opensearch) endpoints. It's aimed at being a training resource to engineers starting off with 
 elasticsearch. You may also consider customising the openapi specification (additional endpoints and notes) to become a training resource specific to your organisation.   
 
-See [https://www.swarmee.net/swagger-4-es/](https://www.swarmee.net/swagger%204%20es/) for further details. 
+See [https://www.swarmee.net/swagger-4-es](https://www.swarmee.net/swagger%204%20es/) for further details. 
 
 ### Screenshot
 [![Swagger UI Screenshot](./docs/Swagger-UI-Screenshot.png)](./docs/Swagger-UI-Screenshot.png)
 
 ### Local Setup
-Follow these steps run you through setting up running swagger-4-es swagger UI locally 
+FolloThe following steps run you through running ```swagger-4-es``` swagger UI locally.
 
 #### Prerequisite
 
@@ -30,10 +30,10 @@ Then open [https://localhost/index.html](https://index/swagger.html) to see the 
 
 **Noting**:
 
-- The local cluster is actually a [Opensearch](https://opensearch.org/) cluster - however this is compatible with Elasticsearch 7.10.2.
-- The Opensearch cluster will take a little while to boot up - at least 15 seconds (you should see the messages scrolling through on your terminal as it starts up).
-- The container starts a nginx reverse proxy to host the Swagger UI page, it generates a self signed certificate so you will need to accept the warning message in your browser. I.e. it is expected to see a `Warning: Potential Security Risk Ahead` message when you open the Swagger UI link (Click Proceed).
-- No authentication is required for the local cluster. 
+- The local instance is actually a [Opensearch](https://opensearch.org/) instance - however this is compatible with Elasticsearch 7.10.2.
+- The Opensearch instance will take a little while to boot up - at least 15 seconds (you should see the messages scrolling through on your terminal as it starts up).
+- The container starts a nginx reverse proxy to host the Swagger UI page, it generates a self signed certificate so you will need to accept the warning message in your browser. I.e. it is expected to see a `Warning: Potential Security Risk Ahead` message when you open the Swagger UI link (Click Accept Risk and Proceed).
+- No authentication is required for the local instance. 
 
-The cluster is also avaliable directly at [http://localhost:9200](http://localhost:9200)
+The local instance is also avaliable directly at [http://localhost:9200](http://localhost:9200)
 
