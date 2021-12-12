@@ -1,4 +1,104 @@
-create_index_examples = {
+country_index_template_examples = {
+    "simple_index_template_creation": {
+        "summary": "A simple index template configuration",
+        "description":
+        "A **simple** index template configuration. In this example we set a few index settings and then proivde the mapping for one field.",
+        "value": {
+            "index_patterns": ["country", "country*"],
+            "template": {
+                "settings": {
+                    "number_of_shards": 1,
+                    "number_of_replicas": 0,
+                    "codec": "best_compression"
+                },
+                "mappings": {
+                    "properties": {
+                        "countryCode": {
+                            "type": "keyword"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "complex_index_template_creation": {
+        "summary":
+        "A index template with 'nested field' and a 'text analysis' analyzer",
+        "description":
+        "In this configuration we configure some text analysis of the name field, nesting for the gdp list, as well as provide some meta data around the template and allocate a priority to the application of the template",
+        "value": {
+            "index_patterns": ["country"],
+            "template": {
+                "settings": {
+                    "number_of_shards": 1,
+                    "number_of_replicas": 0,
+                    "codec": "best_compression",
+                    "analysis": {
+                        "analyzer": {
+                            "custom_analyzer": {
+                                "tokenizer":
+                                "standard",
+                                "filter": [
+                                    "lowercase", "stopword_filter",
+                                    "snowball_filter"
+                                ]
+                            }
+                        },
+                        "filter": {
+                            "snowball_filter": {
+                                "type": "snowball"
+                            },
+                            "stopword_filter": {
+                                "type": "stop",
+                                "stopwords": ["a", "the", "republic"]
+                            }
+                        }
+                    }
+                },
+                "mappings": {
+                    "properties": {
+                        "name": {
+                            "type": "text",
+                            "analyzer": "custom_analyzer",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                }
+                            }
+                        },
+                        "countryCode": {
+                            "type": "keyword"
+                        },
+                        "gdp": {
+                            "type": "nested",
+                            "properties": {
+                                "amount": {
+                                    "type": "long"
+                                },
+                                "year": {
+                                    "type": "long"
+                                }
+                            }
+                        }
+                    }
+                },
+                "aliases": {
+                    "countries": {}
+                },
+            },
+            "priority": 10,
+            "version": 3,
+            "_meta": {
+                "description": "my complex template",
+                "createdDate": "2020-01-01",
+                "notes": "added priortiy as 10"
+            }
+        }
+    }
+}
+
+create_index_examplesdd = {
     "simple_index_creation": {
         "summary": "A simple index setting configuration",
         "description":
@@ -34,7 +134,8 @@ create_index_examples = {
                 "properties": {
                     "name": {
                         "type": "text",
-                        "analyzer": "custom_analyzer" , "fields": {
+                        "analyzer": "custom_analyzer",
+                        "fields": {
                             "keyword": {
                                 "type": "keyword",
                                 "ignore_above": 256
@@ -258,14 +359,14 @@ create_index_examples = {
 #     }
 # }
 
-update_index_settings_examples = {
-    "update_index_setting": {
-        "summary": "A update to an index setting",
-        "description": "A **simple** update index setting example",
-        "value": {
-            "index": {
-                "number_of_replicas": 2
-            }
-        }
-    }
-}
+# update_index_settings_examples = {
+#     "update_index_setting": {
+#         "summary": "A update to an index setting",
+#         "description": "A **simple** update index setting example",
+#         "value": {
+#             "index": {
+#                 "number_of_replicas": 2
+#             }
+#         }
+#     }
+# }
