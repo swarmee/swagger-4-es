@@ -3,7 +3,7 @@
 `swagger-4-es` provides a Swagger UI page for the key elasticsearch (and Opensearch) endpoints. It's aimed at being a training resource to engineers starting off with 
 elasticsearch. You may also consider customising the openapi specification (additional endpoints and notes) to become a training resource specific to your organisation.   
 
-See (https://www.swarmee.net/swagger-4-es/)[https://www.swarmee.net/swagger%204%20es/] for further details. 
+See [https://www.swarmee.net/swagger-4-es/](https://www.swarmee.net/swagger%204%20es/) for further details. 
 
 ### Screenshot
 [![Swagger UI Screenshot](./docs/Swagger-UI-Screenshot.png)](./docs/Swagger-UI-Screenshot.png)
