@@ -1,5 +1,5 @@
 version: '3.8'
-services:
+services: ### CHANGES THIS TO ELASTICSEARCH
   opensearch:
     image: opensearchproject/opensearch:latest
     container_name: opensearch

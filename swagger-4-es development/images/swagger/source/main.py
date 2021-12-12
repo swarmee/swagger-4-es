@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Body, Header, Depends
 from pydantic import BaseModel
 from typing import Optional
-from queries import *
 from create_operations import create_operations
 from retrieve_operations import retrieve_operations
 from update_operations import update_operations
@@ -16,32 +15,10 @@ from search_templates import search_templates
 from cluster_operations import cluster_operations
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-
-# class search_query(BaseModel):
-#     match: Optional[dict] = None
-#     range: Optional[dict] = None
-
-
-# class search_request(BaseModel):
-#     query: Optional[search_query]
-#     size: Optional[int]
-#     track_total_hits: Optional[bool]
-
-
-# class template_search_params(BaseModel):
-#     searchTerm: Optional[str]
-#     size: Optional[int]
-
-
-# class template_search_body(BaseModel):
-#     id: str
-#     params: Optional[template_search_params]
-
-
 security = HTTPBasic()
 
 app = FastAPI(
-    title='Elasticsearch/Opensearch Docs',
+    title='swagger-4-es (elasticsearch)',
        root_path="/swagger",
        docs_url="/",
     servers=[{
@@ -51,13 +28,13 @@ app = FastAPI(
     url="https://github.com/swarmee",
     version="1.0",
     description=
-    ("This Swagger UI page runs through the basic [Elasticsearch](https://www.elastic.co/) API end points (it also works for [Opensearch](https://opensearch.org/) end points) \n\n"
+    ("This Swagger UI page runs through the basic [Elasticsearch](https://www.elastic.co/) API end points (it also works for [Opensearch](https://opensearch.org/) end points). "
      "It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\n"
-     "The page runs through the basics of index management and the key `CRUD` operations. "
+     "The page runs through the basics of index management and the key `CRUD` operations. It then goes on to document a number of the more complex features."     
      "Sample payloads and responses have been provided for each endpoint to assist in the learning processing. "
-     "Every CRUD end point requires that you specify an index name as a path parameter.\n\n"
+     "Every CRUD end point requires that you specify an index name as a path parameter. "
      "For instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the "
-     "[Swarmee Swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/)."
+     "[Swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/)."
      ),
     long_description=(),
     long_description_content_type="text/markdown",
@@ -178,6 +155,7 @@ app.include_router(
      tags=["💈 Search Templates"])
 
 
+#### Fun emoji's for feature documentation
 # ✨ Sparkles
 # 💚 Green Heart 
 # ❗ Exclamation Mark

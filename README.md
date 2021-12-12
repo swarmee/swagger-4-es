@@ -30,8 +30,7 @@ Then open [https://localhost/index.html](https://localhost/index.html) to see th
 
 **Noting**:
 
-- The local instance is actually a [Opensearch](https://opensearch.org/) instance - however this is compatible with Elasticsearch 7.10.2.
-- The Opensearch instance will take a little while to boot up - at least 15 seconds (you should see the messages scrolling through on your terminal as it starts up).
+- The Elasticsearch instance will take a little while to boot up - at least 15 seconds (you should see the messages scrolling through on your terminal as it starts up).
 - The container starts a nginx reverse proxy to host the Swagger UI page, it generates a self signed certificate so you will need to accept the warning message in your browser. I.e. it is expected to see a `Warning: Potential Security Risk Ahead` message when you open the Swagger UI link (Click Accept Risk and Proceed).
 - No authentication is required for the local instance. 
 

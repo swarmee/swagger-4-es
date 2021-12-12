@@ -9,7 +9,7 @@ RUN /usr/share/opensearch/bin/opensearch-plugin remove opensearch-alerting
 #RUN /usr/share/opensearch/bin/opensearch-plugin remove ingest-geoip
 #RUN /usr/share/opensearch/bin/opensearch-plugin remove ingest-user-agent
 #RUN /usr/share/opensearch/bin/opensearch-plugin remove percolator
-RUN /usr/share/opensearch/bin/opensearch-plugin remove opensearch-notebooks
+#RUN /usr/share/opensearch/bin/opensearch-plugin remove opensearch-notebooks
 RUN /usr/share/opensearch/bin/opensearch-plugin remove opensearch-asynchronous-search
 RUN /usr/share/opensearch/bin/opensearch-plugin remove opensearch-reports-scheduler
 RUN /usr/share/opensearch/bin/opensearch-plugin remove opensearch-cross-cluster-replication
