@@ -40,7 +40,7 @@ simple_single_country4 = {
     }]
 }
 
-complex_single_country = {
+simple_single_country5 = {
     'name':
     'Angola',
     'countryCode':
@@ -115,11 +115,11 @@ create_examples = {
         "description": "A **simple** Bermuda document with only a few fields",
         "value": simple_single_country4
     },
-    "complex_single_country": {
-        "summary": "A complex country document",
+    "simple_single_country5": {
+        "summary": "A simple country document (5)",
         "description":
-        "A `complex` Angola document with many fields of different types",
-        "value": complex_single_country
+        "A **simple** Angola document with many fields of different types",
+        "value": simple_single_country5 
     }
 }
 

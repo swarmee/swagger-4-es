@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, Response, Request, Body, Path
 from typing import Optional, List
 from .schema import *
-from .examples import *
+from .examples import country_index_template_examples
 
 api = APIRouter()
 
@@ -30,93 +30,9 @@ def save_index_template(
         request:
     dict = Body(
         ...,
-        examples={
-            "simple_index_template_creation": {
-                "summary": "A simple index template configuration",
-                "description":
-                "A **simple** index template configuration. In this example we set a few index settings and then proivde the mapping for one field.",
-                "value": {
-                    "index_patterns": ["country"],
-                    "template": {
-                        "settings": {
-                            "number_of_shards": 1,
-                            "number_of_replicas": 0,
-                            "codec": "best_compression"
-                        },
-                        "mappings": {
-                            "properties": {
-                                "countryCode": {
-                                    "type": "keyword"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "complex_index_template_creation": {
-                "summary": "A index template with a 'text analysis' analyzer",
-                "description":
-                "In this configuration we configure some text analysis of the name field, as well as provide some meta data around the template and allocate a priority to the application of the template",
-                "value": {
-                    "index_patterns": ["country"],
-                    "template": {
-                        "settings": {
-                            "number_of_shards": 1,
-                            "number_of_replicas": 0,
-                            "codec": "best_compression",
-                            "analysis": {
-                                "analyzer": {
-                                    "custom_analyzer": {
-                                        "tokenizer":
-                                        "standard",
-                                        "filter": [
-                                            "lowercase", "stopword_filter",
-                                            "snowball_filter"
-                                        ]
-                                    }
-                                },
-                                "filter": {
-                                    "snowball_filter": {
-                                        "type": "snowball"
-                                    },
-                                    "stopword_filter": {
-                                        "type": "stop",
-                                        "stopwords": ["a", "the", "republic"]
-                                    }
-                                }
-                            }
-                        },
-                        "mappings": {
-                            "properties": {
-                                "name": {
-                                    "type": "text",
-                                    "analyzer": "custom_analyzer",
-                                      "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                        }
-                                },
-                                "countryCode": {
-                                    "type": "keyword"
-                                }
-                            }
-                        },
-                        "aliases": {
-                            "countries": {}
-                        },
-                    },
-                    "priority": 10,
-                    "version": 3,
-                    "_meta": {
-                        "description": "my complex template",
-                        "createdDate": "2020-01-01",
-                        "notes": "added priortiy as 10"
-                    }
-                }
-            }
-        })):
+        examples=country_index_template_examples
+        )
+        ):
     """
         This endpoint is used to save an index template into the cluster.
         Once a template has been saved into the cluster all indexes created after that match the index pattern will have this template applied. 

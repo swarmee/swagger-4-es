@@ -1,25 +1,30 @@
 version: '3.8'
-services: ### CHANGES THIS TO ELASTICSEARCH
-  opensearch:
-    image: opensearchproject/opensearch:latest
-    container_name: opensearch
+services: 
+  es8:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.0.0-beta1
+    container_name: es8
     restart: always
     environment:
       - cluster.name=swarmee
-      - node.name=opensearch
-      - discovery.seed_hosts=opensearch
-      - cluster.initial_master_nodes=opensearch
-      - plugins.security.ssl.http.enabled=false
-      - network.bind_host=0.0.0.0
-      - network.publish_host=0.0.0.0
-      - plugins.security.disabled=true
-      - http.cors.enabled=true
-      - http.cors.allow-credentials=true
+      - node.name=swarmee01
+      - discovery.seed_hosts=swarmee01
+      - cluster.initial_master_nodes=swarmee01
+      - xpack.security.enabled=false
+      - xpack.eql.enabled=false
+      - xpack.idp.enabled=false
+      - xpack.ccr.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false
+#      - xpack.monitoring.enabled=false
+      - xpack.license.self_generated.type=basic
+      - xpack.ml.enabled=false
+      - xpack.monitoring.collection.enabled=false
+      - http.cors.enabled=true      
+      - http.cors.allow-credentials=true      
       - http.cors.allow-origin="*"
-#      - http.cors.allow-methods=OPTIONS, HEAD, GET, POST, PUT, DELETE
       - http.cors.allow-headers="X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept"
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
-      - "OPENSEARCH_JAVA_OPTS=-Xms1024m -Xmx1024m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
     ulimits:
       memlock:
         soft: -1
@@ -28,9 +33,9 @@ services: ### CHANGES THIS TO ELASTICSEARCH
         soft: 65536 # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
         hard: 65536
     ports:
-      - 9200:9200
+      - 127.0.0.1:9200:9200
     networks:
-      - opensearch
+      - swaggernet
 
   nginx:
     restart: always
@@ -38,14 +43,12 @@ services: ### CHANGES THIS TO ELASTICSEARCH
     ports:
       - 443:443         
     networks:
-      - opensearch
+      - swaggernet
     depends_on: 
-      - opensearch
+      - es8
     volumes:
       - ./docs:/www-root/
-    depends_on:
-      - opensearch
 
 networks:
-  opensearch:
+  swaggernet:
 
