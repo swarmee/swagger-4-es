@@ -48,7 +48,7 @@ def save_ingest_pipeline(
                 },
                 "add_timestamp_pipeline": {
                     "summary": "A timestamp pipeline configuration",
-                    "description": "Adds timestamp to documents.",
+                    "description": "Adds timestamp to documents. We also add a date processor to remove the nanos and milliseconds",
                     "value": {
                         "description":
                         "Add timestamp to documents",
@@ -56,6 +56,13 @@ def save_ingest_pipeline(
                             "set": {
                                 "field": "@timestamp",
                                 "value": "{{_ingest.timestamp}}"
+                            }
+                        }, {
+                            "date": {
+                                "field": "@timestamp",
+                                "target_field": "@timestamp",
+                                "formats": ["strict_date_optional_time_nanos"],
+                                "output_format": "basic_date_time_no_millis"
                             }
                         }]
                     }
@@ -66,24 +73,21 @@ def save_ingest_pipeline(
                     "value": {
                         "description":
                         "Add timestamp to documents",
-                        "processors": [
-                            {
-                                "set": {
-                                    "field": "@timestamp",
-                                    "value": "{{_ingest.timestamp}}"
-                                }
-                            },
-                           
-                            {
-                                "date_index_name": {
-                                    "field": "timestamp",
-                                    "index_name_prefix": "country-",
-                                    "date_formats" :   ["strict_date_optional_time_nanos"], 
-                                    "date_rounding": "M",
-                                    "timezone" : "Australia/Sydney"
-                                }
+                        "processors": [{
+                            "set": {
+                                "field": "@timestamp",
+                                "value": "{{_ingest.timestamp}}"
                             }
-                        ]
+                        }, {
+                            "date_index_name": {
+                                "field": "@timestamp",
+                                "index_name_prefix": "country-",
+                                "date_formats":
+                                ["strict_date_optional_time_nanos"],
+                                "date_rounding": "M",
+                                "timezone": "Australia/Sydney"
+                            }
+                        }]
                     }
                 }
             })):

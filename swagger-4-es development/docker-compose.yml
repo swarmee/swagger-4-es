@@ -28,6 +28,7 @@ services:
       - opensearch
     volumes:
       - ./images/nginx/www-root:/www-root/
+      - ./images/swagger/source/openapi/openapi.json:/www-root/docs/openapi.json
     depends_on:
       - opensearch
       - swagger
@@ -61,6 +62,7 @@ services:
       - opensearch
     volumes:
       - ./images/swagger/source:/app/
+      - ./images/swagger/source/openapi:/app/openapi/
 
   setup-es:
     build: ./images/setup-es

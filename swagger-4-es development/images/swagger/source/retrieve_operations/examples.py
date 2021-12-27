@@ -1,4 +1,12 @@
 search_examples = {
+    "match_all_query": {
+        "summary": "A match all example",
+        "value": {
+            "query": {
+                "match_all": {                }
+            }
+        }
+    },    
     "query_string_query": {
         "summary": "A query string example",
         "value": {

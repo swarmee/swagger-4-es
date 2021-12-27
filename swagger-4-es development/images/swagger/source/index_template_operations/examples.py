@@ -5,6 +5,7 @@ country_index_template_examples = {
         "A **simple** index template configuration. In this example we set a few index settings and then proivde the mapping for one field.",
         "value": {
             "index_patterns": ["country", "country*"],
+            "priority": 1,
             "template": {
                 "settings": {
                     "number_of_shards": 1,
