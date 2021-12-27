@@ -1,0 +1,10 @@
+{ "index" : { "_index" : "country", "_id" : "1" } }
+{ "name": "Afghanistan", "countryCode": "AF", "capital": "Kabul", "region": "Asia", "subregion": "Southern Asia", "area": 652230}
+{ "index" : { "_index" : "country", "_id" : "2" } }
+{ "name": "Commonwealth of the Bahamas", "countryCode": "BS", "capital": "Nassau", "area": 630, "region": "Americas"}
+{ "index" : { "_index" : "country", "_id" : "3" } }
+{ "name": "Republic of Uganda", "countryCode": "UG", "capital": "Kampala", "region": "Africa"}
+{ "index" : { "_index" : "country", "_id" : "4" } }
+{ "name": "The Bermudas", "countryCode": "BM", "capital": "Hamilton", "region": "Americas", "gdp": [{  "year": 2020,  "amount": 8000000000 }, {  "year": 2010,  "amount": 6000000000 }]}
+{ "index" : { "_index" : "country", "_id" : "5" } }
+{ "name": "Angola", "countryCode": "AO", "capital": "Luanda", "region": "Africa", "subregion": "Middle Africa", "latlng": [-12.5, 18.5], "area": 1246000, "gdp": [{  "year": 2020,  "amount": 62000000000 }, {  "year": 2010,  "amount": 83000000000 }]}
