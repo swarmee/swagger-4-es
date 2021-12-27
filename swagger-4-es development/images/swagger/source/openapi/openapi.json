@@ -2997,13 +2997,13 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
+                    "from": "20",
+                    "size": "10",
                     "query": {
                       "match": {
                         "name": "France"
                       }
-                    },
-                    "from": "20",
-                    "size": "10"
+                    }
                   }
                 }
               }
@@ -3557,13 +3557,13 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
+                    "from": "20",
+                    "size": "10",
                     "query": {
                       "match": {
                         "name": "France"
                       }
-                    },
-                    "from": "20",
-                    "size": "10"
+                    }
                   }
                 }
               }
