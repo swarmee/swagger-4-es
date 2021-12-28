@@ -2,7 +2,7 @@
   "openapi": "3.0.2",
   "info": {
     "title": "swagger-4-es (elasticsearch)",
-    "description": "This Swagger UI page runs through the basic [Elasticsearch](https://www.elastic.co/) API end points (it also works for [Opensearch](https://opensearch.org/) end points). It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe page runs through the basics of index management and the key `CRUD` operations. It then goes on to document a number of the more complex features.Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter. For instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [Swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/).",
+    "description": "This Swagger UI page runs through the basic [Elasticsearch](https://www.elastic.co/) API end points (it also works for [Opensearch](https://opensearch.org/) end points). It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\nThe page runs through the basics of index management and the key `CRUD` operations. It then goes on to document a number of the more complex features. Sample payloads and responses have been provided for each endpoint to assist in the learning processing. Every CRUD end point requires that you specify an index name as a path parameter. For instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the [swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/).",
     "version": "1.0"
   },
   "servers": [
@@ -3477,7 +3477,7 @@
           "\ud83d\udc88 Search Templates"
         ],
         "summary": "Save Search Template",
-        "description": "This endpoint is used to save a search template into the cluster. Templates are written in the [Mustache](https://mustache.github.io/) templating language. \nAll saved scripts can also be accessed through the `_cluster/state` endpoint.\nOnce a template has been saved into the cluster it can be used to perform queries. ",
+        "description": "This endpoint is used to save a search template into the cluster. Templates are written in the [Mustache](https://mustache.github.io/) templating language. \nOnce a template has been saved into the cluster it can be used to perform queries. Search templates are really handy when you want to be able to\nsimplify the queries submited from your frontend application. Basically you can hide all of the complexity of the query. It also allows you to continue to \nmake tweaks to the queries without breaking the interface to the frontend.  ",
         "operationId": "save_search_template__scripts__searchTemplateName__put",
         "parameters": [
           {
@@ -3499,9 +3499,9 @@
                 "type": "object"
               },
               "examples": {
-                "simple_index_creation": {
+                "simple_search_template": {
                   "summary": "A simple Search Template",
-                  "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                  "description": "A **simple** search template.",
                   "value": {
                     "script": {
                       "lang": "mustache",
@@ -3512,6 +3512,49 @@
                           }
                         },
                         "from": "{{from}}{{^from}}0{{/from}}",
+                        "size": "{{size}}{{^size}}10{{/size}}"
+                      }
+                    }
+                  }
+                },
+                "search_template_with_mulitple_criteria": {
+                  "summary": "A Search Template with multiple crtiera",
+                  "description": "A search template with multiple criteria. ",
+                  "value": {
+                    "script": {
+                      "lang": "mustache",
+                      "source": {
+                        "query": {
+                          "bool": {
+                            "should": [
+                              {
+                                "match": {
+                                  "name.keyword": {
+                                    "query": "{{name}}",
+                                    "boost": 5
+                                  }
+                                }
+                              },
+                              {
+                                "match_phrase": {
+                                  "name": {
+                                    "query": "{{name}}",
+                                    "slop": 1,
+                                    "boost": 3
+                                  }
+                                }
+                              },
+                              {
+                                "match": {
+                                  "name": {
+                                    "query": "{{name}}",
+                                    "boost": 3
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
                         "size": "{{size}}{{^size}}10{{/size}}"
                       }
                     }
@@ -3596,7 +3639,7 @@
           "\ud83d\udc88 Search Templates"
         ],
         "summary": "Render Search Template",
-        "description": "This end point can be used in two ways:\n- To render a query based on a previously saved search template, \n\n- to render a query based on a supplied query template. ",
+        "description": "This end point can be used in two ways:\n- To render a query based on a supplied query template - render inline query with supplied parameter). \n\n- To render a query based on a previously saved search template - render saved query with supplied parameters).",
         "operationId": "render_search_template__render_template_post",
         "requestBody": {
           "content": {
@@ -3614,13 +3657,13 @@
                       "size": "{{size}}{{^size}}10{{/size}}",
                       "query": {
                         "match": {
-                          "name": "{{countryName}}"
+                          "name": "{{name}}"
                         }
                       }
                     },
                     "params": {
-                      "countryName": "Afghanistan",
-                      "size": 4
+                      "name": "Afghanistan",
+                      "size": "4"
                     }
                   }
                 },
@@ -3635,7 +3678,7 @@
                             {
                               "match": {
                                 "name.keyword": {
-                                  "query": "{{searchTerm}}",
+                                  "query": "{{name}}",
                                   "boost": 5
                                 }
                               }
@@ -3643,7 +3686,7 @@
                             {
                               "match_phrase": {
                                 "name": {
-                                  "query": "{{searchTerm}}",
+                                  "query": "{{name}}",
                                   "slop": 1,
                                   "boost": 3
                                 }
@@ -3652,17 +3695,19 @@
                             {
                               "match": {
                                 "name": {
-                                  "query": "{{searchTerm}}",
+                                  "query": "{{name}}",
                                   "boost": 3
                                 }
                               }
                             }
                           ]
                         }
-                      }
+                      },
+                      "size": "{{size}}{{^size}}10{{/size}}"
                     },
                     "params": {
-                      "searchTerm": "Republic of Afghanistan"
+                      "name": "Republic of Afghanistan",
+                      "size": "1"
                     }
                   }
                 },
@@ -3716,7 +3761,7 @@
           "\ud83d\udc88 Search Templates"
         ],
         "summary": "Run Search Template",
-        "description": "Run a templated search, basically apply the parameters from the \nrequest to populate the search template and execute the query on \nthe index within the URL. ",
+        "description": "Similar to the ```_render/template``` endpoint this end point can be used in two ways:\n- To run a templated query with the supplied parameters where the template is provided inline. \n\n- To run a templated query with the supplied query where the template was previously saved in the cluster state.",
         "operationId": "run_search_template__index___search_template_post",
         "parameters": [
           {
@@ -3738,9 +3783,71 @@
                 "type": "object"
               },
               "examples": {
-                "simple_index_creation": {
-                  "summary": "A simple Search Template",
-                  "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                "run_simple_inline_search_template": {
+                  "summary": "Run simple inline Search Template",
+                  "description": "A **simple** example of running a search template provided inline. The search template is populated and the query executed. ",
+                  "value": {
+                    "source": {
+                      "size": "{{size}}{{^size}}10{{/size}}",
+                      "query": {
+                        "match": {
+                          "name": "{{countryName}}"
+                        }
+                      }
+                    },
+                    "params": {
+                      "countryName": "Afghanistan",
+                      "size": 4
+                    }
+                  }
+                },
+                "run_complex_inline_search_template": {
+                  "summary": "Run complex inline Search Template",
+                  "description": "A ***complex** search template with two input parameters size and country name. The search template is populated and the query executed. ",
+                  "value": {
+                    "source": {
+                      "query": {
+                        "bool": {
+                          "should": [
+                            {
+                              "match": {
+                                "name.keyword": {
+                                  "query": "{{name}}",
+                                  "boost": 5
+                                }
+                              }
+                            },
+                            {
+                              "match_phrase": {
+                                "name": {
+                                  "query": "{{name}}",
+                                  "slop": 1,
+                                  "boost": 3
+                                }
+                              }
+                            },
+                            {
+                              "match": {
+                                "name": {
+                                  "query": "{{name}}",
+                                  "boost": 3
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "size": "{{size}}{{^size}}10{{/size}}"
+                    },
+                    "params": {
+                      "name": "Afghanistan",
+                      "size": "1"
+                    }
+                  }
+                },
+                "run_simple_saved_search_template": {
+                  "summary": "Run saved Search Template",
+                  "description": "A **simple** example of running a previously saved search template. The requests identifies the saved search template and the parameters that should be used to generate the query.",
                   "value": {
                     "id": "country-search-template",
                     "params": {

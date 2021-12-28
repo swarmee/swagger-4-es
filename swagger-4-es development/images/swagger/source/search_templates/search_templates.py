@@ -30,35 +30,75 @@ api = APIRouter()
 def save_search_template(
         searchTemplateName: str = Path(default="country-search-template",
                                        example="country-search-template"),
-        request:
-    dict = Body(
-        ...,
-        examples={
-            "simple_index_creation": {
-                "summary": "A simple Search Template",
-                "description":
-                "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
-                "value": {
-                    "script": {
-                        "lang": "mustache",
-                        "source": {
-                            "query": {
-                                "match": {
-                                    "name": "{{name}}"
-                                }
-                            },
-                            "from": "{{from}}{{^from}}0{{/from}}",
-                            "size": "{{size}}{{^size}}10{{/size}}"
+        request: dict = Body(
+            ...,
+            examples={
+                "simple_search_template": {
+                    "summary": "A simple Search Template",
+                    "description": "A **simple** search template.",
+                    "value": {
+                        "script": {
+                            "lang": "mustache",
+                            "source": {
+                                "query": {
+                                    "match": {
+                                        "name": "{{name}}"
+                                    }
+                                },
+                                "from": "{{from}}{{^from}}0{{/from}}",
+                                "size": "{{size}}{{^size}}10{{/size}}"
+                            }
+                        }
+                    }
+                },
+                "search_template_with_mulitple_criteria": {
+                    "summary": "A Search Template with multiple crtiera",
+                    "description":
+                    "A search template with multiple criteria. ",
+                    "value": {
+                        "script": {
+                            "lang": "mustache",
+                            "source": {
+                                "query": {
+                                    "bool": {
+                                        "should": [{
+                                            "match": {
+                                                "name.keyword": {
+                                                    "query": "{{name}}",
+                                                    "boost": 5
+                                                }
+                                            }
+                                        }, {
+                                            "match_phrase": {
+                                                "name": {
+                                                    "query": "{{name}}",
+                                                    "slop": 1,
+                                                    "boost": 3
+                                                }
+                                            }
+                                        }, {
+                                            "match": {
+                                                "name": {
+                                                    "query": "{{name}}",
+                                                    "boost": 3
+                                                }
+                                            }
+                                        }]
+                                    }
+                                },
+                                "size": "{{size}}{{^size}}10{{/size}}"
+                            }
                         }
                     }
                 }
-            }
-        })):
+            })):
     """
         This endpoint is used to save a search template into the cluster. Templates are written in the [Mustache](https://mustache.github.io/) templating language. 
-        All saved scripts can also be accessed through the `_cluster/state` endpoint.
-        Once a template has been saved into the cluster it can be used to perform queries. 
+        Once a template has been saved into the cluster it can be used to perform queries. Search templates are really handy when you want to be able to
+        simplify the queries submited from your frontend application. Basically you can hide all of the complexity of the query. It also allows you to continue to 
+        make tweaks to the queries without breaking the interface to the frontend.  
     """
+    ##        All saved scripts can also be accessed through the `_cluster/state` endpoint.
     return _id
 
 
@@ -97,13 +137,13 @@ def render_search_template(
                         "size": "{{size}}{{^size}}10{{/size}}",
                         "query": {
                             "match": {
-                                "name": "{{countryName}}"
+                                "name": "{{name}}"
                             }
                         }
                     },
                     "params": {
-                        "countryName": "Afghanistan",
-                        "size": 4
+                        "name": "Afghanistan",
+                        "size": "4"
                     }
                 },
             },
@@ -119,14 +159,14 @@ def render_search_template(
                                 "should": [{
                                     "match": {
                                         "name.keyword": {
-                                            "query": "{{searchTerm}}",
+                                            "query": "{{name}}",
                                             "boost": 5
                                         }
                                     }
                                 }, {
                                     "match_phrase": {
                                         "name": {
-                                            "query": "{{searchTerm}}",
+                                            "query": "{{name}}",
                                             "slop": 1,
                                             "boost": 3
                                         }
@@ -134,16 +174,18 @@ def render_search_template(
                                 }, {
                                     "match": {
                                         "name": {
-                                            "query": "{{searchTerm}}",
+                                            "query": "{{name}}",
                                             "boost": 3
                                         }
                                     }
                                 }]
                             }
-                        }
+                        },
+                        "size": "{{size}}{{^size}}10{{/size}}"
                     },
                     "params": {
-                        "searchTerm": "Republic of Afghanistan"
+                        "name": "Republic of Afghanistan",
+                        "size": "1"
                     }
                 }
             },
@@ -185,8 +227,8 @@ def render_search_template(
         })):
     """
         This end point can be used in two ways:
-        - To render a query based on a previously saved search template, \n
-        - to render a query based on a supplied query template. \n
+        - To render a query based on a supplied query template - render inline query with supplied parameter). \n
+        - To render a query based on a previously saved search template - render saved query with supplied parameters).
       """
     return _id
 
@@ -244,10 +286,70 @@ def run_search_template(
     dict = Body(
         ...,
         examples={
-            "simple_index_creation": {
-                "summary": "A simple Search Template",
+            "run_simple_inline_search_template": {
+                "summary": "Run simple inline Search Template",
                 "description":
-                "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                "A **simple** example of running a search template provided inline. The search template is populated and the query executed. ",
+                "value": {
+                    "source": {
+                        "size": "{{size}}{{^size}}10{{/size}}",
+                        "query": {
+                            "match": {
+                                "name": "{{countryName}}"
+                            }
+                        }
+                    },
+                    "params": {
+                        "countryName": "Afghanistan",
+                        "size": 4
+                    }
+                }
+            },
+            "run_complex_inline_search_template": {
+                "summary": "Run complex inline Search Template",
+                "description":
+                "A ***complex** search template with two input parameters size and country name. The search template is populated and the query executed. ",
+                "value": {
+                    "source": {
+                        "query": {
+                            "bool": {
+                                "should": [{
+                                    "match": {
+                                        "name.keyword": {
+                                            "query": "{{name}}",
+                                            "boost": 5
+                                        }
+                                    }
+                                }, {
+                                    "match_phrase": {
+                                        "name": {
+                                            "query": "{{name}}",
+                                            "slop": 1,
+                                            "boost": 3
+                                        }
+                                    }
+                                }, {
+                                    "match": {
+                                        "name": {
+                                            "query": "{{name}}",
+                                            "boost": 3
+                                        }
+                                    }
+                                }]
+                            }
+                        },
+                        "size": "{{size}}{{^size}}10{{/size}}"
+                    },
+                    "params": {
+                        "name": "Afghanistan",
+                        "size": "1"
+                    }
+                }
+            },
+            "run_simple_saved_search_template": {
+                "summary": "Run saved Search Template",
+                "description":
+                "A **simple** example of running a previously saved search template. The requests identifies the saved search template and the parameters that should be used to generate the query.",
                 "value": {
                     "id": "country-search-template",
                     "params": {
@@ -258,9 +360,9 @@ def run_search_template(
             }
         })):
     """
-       Run a templated search, basically apply the parameters from the 
-       request to populate the search template and execute the query on 
-       the index within the URL. 
+        Similar to the ```_render/template``` endpoint this end point can be used in two ways:
+        - To run a templated query with the supplied parameters where the template is provided inline. \n
+        - To run a templated query with the supplied query where the template was previously saved in the cluster state.
     """
     return _id
 

@@ -30,11 +30,11 @@ app = FastAPI(
     description=
     ("This Swagger UI page runs through the basic [Elasticsearch](https://www.elastic.co/) API end points (it also works for [Opensearch](https://opensearch.org/) end points). "
      "It is intended to be used as a first introduction for anybody looking to pick upsome elasticsearch knowledge. \n\n"
-     "The page runs through the basics of index management and the key `CRUD` operations. It then goes on to document a number of the more complex features."
+     "The page runs through the basics of index management and the key `CRUD` operations. It then goes on to document a number of the more complex features. "
      "Sample payloads and responses have been provided for each endpoint to assist in the learning processing. "
      "Every CRUD end point requires that you specify an index name as a path parameter. "
      "For instructions on how to setup a elasticsearch cluster and connect up this Swagger UI page - head over to the "
-     "[Swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/)."),
+     "[swagger-4-es Page](https://www.swarmee.net/swagger%204%20es/)."),
     long_description=(),
     long_description_content_type="text/markdown",
     openapi_tags=[
