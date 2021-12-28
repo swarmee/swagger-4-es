@@ -26,7 +26,7 @@ The following software and configuration is required on your computer to boot up
 docker-compose up
 ```
 
-Then open [cc](https://localhost/index.html) to see the Swagger UI page.
+Then open [https://localhost/index.html](https://localhost/index.html) to see the Swagger UI page. The nginx container is setup to forward all to elasticsearch except for URLs ending in ```.json``` or ```.html```. 
 
 **Noting**:
 
