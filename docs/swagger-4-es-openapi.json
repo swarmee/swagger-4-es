@@ -3037,13 +3037,13 @@
                                 "schema": {},
                                 "examples": {
                                     "template_output": {
+                                        "size": "10",
+                                        "from": "20",
                                         "query": {
                                             "match": {
                                                 "name": "France"
                                             }
-                                        },
-                                        "from": "20",
-                                        "size": "10"
+                                        }
                                     }
                                 }
                             }
@@ -3605,13 +3605,13 @@
                                 "schema": {},
                                 "examples": {
                                     "template_output": {
+                                        "size": "10",
+                                        "from": "20",
                                         "query": {
                                             "match": {
                                                 "name": "France"
                                             }
-                                        },
-                                        "from": "20",
-                                        "size": "10"
+                                        }
                                     }
                                 }
                             }
