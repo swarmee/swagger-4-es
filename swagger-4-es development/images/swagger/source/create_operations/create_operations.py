@@ -52,10 +52,12 @@ api = APIRouter()
                           }
                       }
                   }
-              },
+              }
           })
-def create_document_with_id(index: str = Path(default="country", example="country"),
-                            _id: str = Path (default="123456", example="123456"),
+def create_document_with_id(index: str = Path(default="country",
+                                              example="country"),
+                            _id: str = Path(default="123456",
+                                            example="123456"),
                             request: country_model = Body(
                                 ..., examples=create_examples)):
     """
@@ -98,8 +100,9 @@ def create_document_with_id(index: str = Path(default="country", example="countr
                   }
               },
           })
-def create_document_without_id(index: str = Path (default="country", example="country"),
-pipeline: str = Query (None), 
+def create_document_without_id(index: str = Path(default="country",
+                                                 example="country"),
+                               pipeline: str = Query(None),
                                request: country_model = Body(
                                    ..., examples=create_examples)):
     """
@@ -114,11 +117,116 @@ pipeline: str = Query (None),
 
 
 @api.post("/_bulk",
-          status_code=200)
-def create_documents_in_bulk( file: UploadFile = Body(...) ):
+          status_code=200,
+          responses={
+              200: {
+                  "description": "Success",
+                  "content": {
+                      "application/json": {
+                          "examples": {
+                              "JSON Response": {
+                                  "summary": "JSON Response",
+                                  "value": {
+                                      "took":
+                                      50,
+                                      "errors":
+                                      False,
+                                      "items": [{
+                                          "index": {
+                                              "_index": "country",
+                                              "_type": "_doc",
+                                              "_id": "1",
+                                              "_version": 4,
+                                              "result": "updated",
+                                              "_shards": {
+                                                  "total": 1,
+                                                  "successful": 1,
+                                                  "failed": 0
+                                              },
+                                              "_seq_no": 14,
+                                              "_primary_term": 1,
+                                              "status": 200
+                                          }
+                                      }, {
+                                          "index": {
+                                              "_index": "country",
+                                              "_type": "_doc",
+                                              "_id": "2",
+                                              "_version": 4,
+                                              "result": "updated",
+                                              "_shards": {
+                                                  "total": 1,
+                                                  "successful": 1,
+                                                  "failed": 0
+                                              },
+                                              "_seq_no": 15,
+                                              "_primary_term": 1,
+                                              "status": 200
+                                          }
+                                      }, {
+                                          "index": {
+                                              "_index": "country",
+                                              "_type": "_doc",
+                                              "_id": "3",
+                                              "_version": 4,
+                                              "result": "updated",
+                                              "_shards": {
+                                                  "total": 1,
+                                                  "successful": 1,
+                                                  "failed": 0
+                                              },
+                                              "_seq_no": 16,
+                                              "_primary_term": 1,
+                                              "status": 200
+                                          }
+                                      }, {
+                                          "index": {
+                                              "_index": "country",
+                                              "_type": "_doc",
+                                              "_id": "4",
+                                              "_version": 4,
+                                              "result": "updated",
+                                              "_shards": {
+                                                  "total": 1,
+                                                  "successful": 1,
+                                                  "failed": 0
+                                              },
+                                              "_seq_no": 17,
+                                              "_primary_term": 1,
+                                              "status": 200
+                                          }
+                                      }, {
+                                          "index": {
+                                              "_index": "country",
+                                              "_type": "_doc",
+                                              "_id": "5",
+                                              "_version": 3,
+                                              "result": "updated",
+                                              "_shards": {
+                                                  "total": 1,
+                                                  "successful": 1,
+                                                  "failed": 0
+                                              },
+                                              "_seq_no": 18,
+                                              "_primary_term": 1,
+                                              "status": 200
+                                          }
+                                      }]
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          })
+def create_documents_in_bulk(file: UploadFile = Body(...)):
+    """
+          Bulk load documents into elasticsearch, this endpoint is the most efficient method of push large volumes of data into elasticsearch.
+          The required input format is new line delimited json documents (```ndjson```). A sample new line delimited json file
+          can found [here](https://swagger-4-es.swarmee.net/bulk-country-data.ndjson). Please download it, then select it to submit it to
+          the _bulk endpoint. 
+          
+          Each indexing request is made up of a pair of lines in the ```ndjson``` file - the first line describes the bulk action to be performed,
+          index target, _id and other associated metadata. The second line contains the source document.
      """
-          Store a document into elasticsearch, the _id for the record will be generated by elasticsearch. \n
-          If the index to store the document does not already exist it will be created
-          with the default storage and indexing parameters. The HTTP response code is 201 for this request.
-      """
-     return {}
+    return {}
