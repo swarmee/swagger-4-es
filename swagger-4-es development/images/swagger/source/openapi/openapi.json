@@ -3130,13 +3130,13 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
+                    "from": "20",
                     "query": {
                       "match": {
                         "name": "France"
                       }
                     },
-                    "size": "10",
-                    "from": "20"
+                    "size": "10"
                   }
                 }
               }
@@ -3706,7 +3706,7 @@
                       "size": "{{size}}{{^size}}10{{/size}}"
                     },
                     "params": {
-                      "name": "Republic of Afghanistan",
+                      "name": "Afghanistan",
                       "size": "1"
                     }
                   }
@@ -3735,13 +3735,13 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
+                    "from": "20",
                     "query": {
                       "match": {
                         "name": "France"
                       }
                     },
-                    "size": "10",
-                    "from": "20"
+                    "size": "10"
                   }
                 }
               }

@@ -184,7 +184,7 @@ def render_search_template(
                         "size": "{{size}}{{^size}}10{{/size}}"
                     },
                     "params": {
-                        "name": "Republic of Afghanistan",
+                        "name": "Afghanistan",
                         "size": "1"
                     }
                 }
