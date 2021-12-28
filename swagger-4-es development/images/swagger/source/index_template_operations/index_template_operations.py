@@ -27,12 +27,7 @@ api = APIRouter()
 def save_index_template(
         indexTemplateName: str = Path(default='country-index-template',
                                       example='country-index-template'),
-        request:
-    dict = Body(
-        ...,
-        examples=country_index_template_examples
-        )
-        ):
+        request: dict = Body(..., examples=country_index_template_examples)):
     """
         This endpoint is used to save an index template into the cluster.
         Once a template has been saved into the cluster all indexes created after that match the index pattern will have this template applied. 
@@ -50,18 +45,35 @@ def save_index_template(
                              "JSON Response": {
                                  "summary": "JSON Response",
                                  "value": {
-                                     "my-pipeline-id": {
-                                         "description":
-                                         "describe pipeline",
-                                         "version":
-                                         123,
-                                         "processors": [{
-                                             "set": {
-                                                 "field": "foo",
-                                                 "value": "bar"
-                                             }
-                                         }]
-                                     }
+                                     "index_templates": [{
+                                         "name": "country-index-template",
+                                         "index_template": {
+                                             "index_patterns":
+                                             ["country", "country*"],
+                                             "template": {
+                                                 "settings": {
+                                                     "index": {
+                                                         "number_of_shards":
+                                                         "1",
+                                                         "codec":
+                                                         "best_compression",
+                                                         "number_of_replicas":
+                                                         "0"
+                                                     }
+                                                 },
+                                                 "mappings": {
+                                                     "properties": {
+                                                         "countryCode": {
+                                                             "type": "keyword"
+                                                         }
+                                                     }
+                                                 }
+                                             },
+                                             "composed_of": [],
+                                             "priority":
+                                             1
+                                         }
+                                     }]
                                  }
                              }
                          }

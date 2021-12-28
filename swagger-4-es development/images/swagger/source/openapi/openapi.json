@@ -1525,11 +1525,14 @@
         "operationId": "delete_by_query__index___delete_by_query_post",
         "parameters": [
           {
+            "description": "Index Name",
             "required": true,
             "schema": {
               "title": "Index",
-              "type": "string"
+              "type": "string",
+              "description": "Index Name"
             },
+            "example": "country",
             "name": "index",
             "in": "path"
           },
@@ -2218,18 +2221,35 @@
                   "JSON Response": {
                     "summary": "JSON Response",
                     "value": {
-                      "my-pipeline-id": {
-                        "description": "describe pipeline",
-                        "version": 123,
-                        "processors": [
-                          {
-                            "set": {
-                              "field": "foo",
-                              "value": "bar"
-                            }
+                      "index_templates": [
+                        {
+                          "name": "country-index-template",
+                          "index_template": {
+                            "index_patterns": [
+                              "country",
+                              "country*"
+                            ],
+                            "template": {
+                              "settings": {
+                                "index": {
+                                  "number_of_shards": "1",
+                                  "codec": "best_compression",
+                                  "number_of_replicas": "0"
+                                }
+                              },
+                              "mappings": {
+                                "properties": {
+                                  "countryCode": {
+                                    "type": "keyword"
+                                  }
+                                }
+                              }
+                            },
+                            "composed_of": [],
+                            "priority": 1
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
                   }
                 }
@@ -2300,7 +2320,8 @@
                   "description": "In this configuration we configure some text analysis of the name field, nesting for the gdp list, as well as provide some meta data around the template and allocate a priority to the application of the template",
                   "value": {
                     "index_patterns": [
-                      "country"
+                      "country",
+                      "country*"
                     ],
                     "template": {
                       "settings": {
@@ -2971,7 +2992,7 @@
                           "formats": [
                             "strict_date_optional_time_nanos"
                           ],
-                          "output_format": "basic_date_time_no_millis"
+                          "output_format": "yyyy-MM-dd'T'HH:mm:ssZ"
                         }
                       }
                     ]
@@ -3104,9 +3125,9 @@
                 "type": "object"
               },
               "examples": {
-                "simple_index_creation": {
-                  "summary": "A simple index setting configuration",
-                  "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                "simulation_of_ingest_pipeline": {
+                  "summary": "A simple ingest pipeline simulation.",
+                  "description": "Simulation of ingest pipeline.",
                   "value": {
                     "docs": [
                       {
@@ -3139,12 +3160,12 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
+                    "size": "10",
                     "query": {
                       "match": {
                         "name": "France"
                       }
                     },
-                    "size": "10",
                     "from": "20"
                   }
                 }
@@ -3744,12 +3765,12 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
+                    "size": "10",
                     "query": {
                       "match": {
                         "name": "France"
                       }
                     },
-                    "size": "10",
                     "from": "20"
                   }
                 }

@@ -62,7 +62,7 @@ def save_ingest_pipeline(
                                 "field": "@timestamp",
                                 "target_field": "@timestamp",
                                 "formats": ["strict_date_optional_time_nanos"],
-                                "output_format": "basic_date_time_no_millis"
+                                "output_format": "yyyy-MM-dd'T'HH:mm:ssZ"
                             }
                         }]
                     }
@@ -178,10 +178,10 @@ def simulate_ingest_pipeline(
     dict = Body(
         ...,
         examples={
-            "simple_index_creation": {
-                "summary": "A simple index setting configuration",
+            "simulation_of_ingest_pipeline": {
+                "summary": "A simple ingest pipeline simulation.",
                 "description":
-                "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                "Simulation of ingest pipeline.",
                 "value": {
                     "docs": [{
                         "_index": "index",

@@ -28,7 +28,7 @@ country_index_template_examples = {
         "description":
         "In this configuration we configure some text analysis of the name field, nesting for the gdp list, as well as provide some meta data around the template and allocate a priority to the application of the template",
         "value": {
-            "index_patterns": ["country"],
+            "index_patterns": ["country", "country*"],
             "template": {
                 "settings": {
                     "number_of_shards": 1,

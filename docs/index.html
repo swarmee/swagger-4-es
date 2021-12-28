@@ -1470,11 +1470,14 @@
                         "description": "Delete all documents that match a query. All of the powerful search language can be used here\nto identify what needs to be deleted. Depdending on the number of documents to be deleted you \nmay choose to submit this request synchronously or asynchronously based on the `wait_for_completion`\nflag. \n\nIf you choose asynchronously you are provided a `task_id` that you can use to manage the request\nat a later point.  ",
                         "operationId": "delete_by_query__index___delete_by_query_post",
                         "parameters": [{
+                            "description": "Index Name",
                             "required": true,
                             "schema": {
                                 "title": "Index",
-                                "type": "string"
+                                "type": "string",
+                                "description": "Index Name"
                             },
+                            "example": "country",
                             "name": "index",
                             "in": "path"
                         }, {
@@ -1502,6 +1505,15 @@
                                                     "query_string": {
                                                         "query": "af"
                                                     }
+                                                }
+                                            }
+                                        },
+                                        "match_all": {
+                                            "summary": "A match all query example",
+                                            "description": "A match all query.",
+                                            "value": {
+                                                "query": {
+                                                    "match_all": {}
                                                 }
                                             }
                                         },
@@ -2102,16 +2114,33 @@
                                             "JSON Response": {
                                                 "summary": "JSON Response",
                                                 "value": {
-                                                    "my-pipeline-id": {
-                                                        "description": "describe pipeline",
-                                                        "version": 123,
-                                                        "processors": [{
-                                                            "set": {
-                                                                "field": "foo",
-                                                                "value": "bar"
-                                                            }
-                                                        }]
-                                                    }
+                                                    "index_templates": [{
+                                                        "name": "country-index-template",
+                                                        "index_template": {
+                                                            "index_patterns": [
+                                                                "country",
+                                                                "country*"
+                                                            ],
+                                                            "template": {
+                                                                "settings": {
+                                                                    "index": {
+                                                                        "number_of_shards": "1",
+                                                                        "codec": "best_compression",
+                                                                        "number_of_replicas": "0"
+                                                                    }
+                                                                },
+                                                                "mappings": {
+                                                                    "properties": {
+                                                                        "countryCode": {
+                                                                            "type": "keyword"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "composed_of": [],
+                                                            "priority": 1
+                                                        }
+                                                    }]
                                                 }
                                             }
                                         }
@@ -2178,7 +2207,8 @@
                                             "description": "In this configuration we configure some text analysis of the name field, nesting for the gdp list, as well as provide some meta data around the template and allocate a priority to the application of the template",
                                             "value": {
                                                 "index_patterns": [
-                                                    "country"
+                                                    "country",
+                                                    "country*"
                                                 ],
                                                 "template": {
                                                     "settings": {
@@ -2828,14 +2858,14 @@
                                                         "formats": [
                                                             "strict_date_optional_time_nanos"
                                                         ],
-                                                        "output_format": "basic_date_time_no_millis"
+                                                        "output_format": "yyyy-MM-dd'T'HH:mm:ssZ"
                                                     }
                                                 }]
                                             }
                                         },
                                         "allocate_document_to_datetime_index_pipeline": {
                                             "summary": "Allocate the document to a datetime index",
-                                            "description": "Adds timestamp to documents.",
+                                            "description": "Allocate the documentment to an index based on the indexing date time.",
                                             "value": {
                                                 "description": "Add timestamp to documents",
                                                 "processors": [{
@@ -2949,9 +2979,9 @@
                                         "type": "object"
                                     },
                                     "examples": {
-                                        "simple_index_creation": {
-                                            "summary": "A simple index setting configuration",
-                                            "description": "A **simple** index configuration. In this example we are just setting the number of shards and replicas",
+                                        "simulation_of_ingest_pipeline": {
+                                            "summary": "A simple ingest pipeline simulation.",
+                                            "description": "Simulation of ingest pipeline.",
                                             "value": {
                                                 "docs": [{
                                                     "_index": "index",
@@ -2986,8 +3016,8 @@
                                                         "name": "France"
                                                     }
                                                 },
-                                                "size": "10",
-                                                "from": "20"
+                                                "from": "20",
+                                                "size": "10"
                                             }
                                         }
                                     }
@@ -3512,7 +3542,7 @@
                                                     "size": "{{size}}{{^size}}10{{/size}}"
                                                 },
                                                 "params": {
-                                                    "name": "Republic of Afghanistan",
+                                                    "name": "Afghanistan",
                                                     "size": "1"
                                                 }
                                             }
@@ -3546,8 +3576,8 @@
                                                         "name": "France"
                                                     }
                                                 },
-                                                "size": "10",
-                                                "from": "20"
+                                                "from": "20",
+                                                "size": "10"
                                             }
                                         }
                                     }

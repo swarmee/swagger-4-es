@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, Response, Request, Body
+from fastapi import APIRouter, Query, Response, Request, Body, Path
 from typing import Optional, List
 from retrieve_operations.schema import *
 from .schema import *
@@ -87,8 +87,9 @@ def delete_document(
                   }
               },
           })
-def delete_by_query(index: str = Query(
+def delete_by_query(index: str = Path(
     default="country",
+    example="country",
     description="Index Name",
 ),
                     wait_for_completion: bool = Query(
