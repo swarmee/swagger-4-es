@@ -1562,6 +1562,15 @@
                     }
                   }
                 },
+                "match_all": {
+                  "summary": "A match all query example",
+                  "description": "A match all query.",
+                  "value": {
+                    "query": {
+                      "match_all": {}
+                    }
+                  }
+                },
                 "match_query": {
                   "summary": "A match query example",
                   "description": "A **normal** item works correctly.",
@@ -2970,7 +2979,7 @@
                 },
                 "allocate_document_to_datetime_index_pipeline": {
                   "summary": "Allocate the document to a datetime index",
-                  "description": "Adds timestamp to documents.",
+                  "description": "Allocate the documentment to an index based on the indexing date time.",
                   "value": {
                     "description": "Add timestamp to documents",
                     "processors": [
@@ -3130,13 +3139,13 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
-                    "from": "20",
                     "query": {
                       "match": {
                         "name": "France"
                       }
                     },
-                    "size": "10"
+                    "size": "10",
+                    "from": "20"
                   }
                 }
               }
@@ -3735,13 +3744,13 @@
                 "schema": {},
                 "examples": {
                   "template_output": {
-                    "from": "20",
                     "query": {
                       "match": {
                         "name": "France"
                       }
                     },
-                    "size": "10"
+                    "size": "10",
+                    "from": "20"
                   }
                 }
               }

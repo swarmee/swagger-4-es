@@ -9,6 +9,16 @@ delete_examples = {
             }
         }
     },
+    "match_all": {
+        "summary": "A match all query example",
+        "description": "A match all query.",
+        "value": {
+            "query": {
+                "match_all": {
+                }
+            }
+        },
+    },
     "match_query": {
         "summary": "A match query example",
         "description": "A **normal** item works correctly.",
