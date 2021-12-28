@@ -69,7 +69,7 @@ def save_ingest_pipeline(
                 },
                 "allocate_document_to_datetime_index_pipeline": {
                     "summary": "Allocate the document to a datetime index",
-                    "description": "Adds timestamp to documents.",
+                    "description": "Allocate the documentment to an index based on the indexing date time.",
                     "value": {
                         "description":
                         "Add timestamp to documents",
